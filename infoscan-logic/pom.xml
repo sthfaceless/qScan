@@ -20,5 +20,14 @@
         <module>infoscan-logic-phonescanner</module>
     </modules>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-dto</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+    </dependencies>
 
 </project>

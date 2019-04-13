@@ -1,6 +1,6 @@
-InfoScan.iml
+*.iml
 .idea
 target/*
-infoscan-parent/src/main/webapp/WEB-INF/lib/*
+infoscan-master/src/main/webapp/WEB-INF/lib/*
 InfoScan.pdf
 InfoScan_Architecture.png
