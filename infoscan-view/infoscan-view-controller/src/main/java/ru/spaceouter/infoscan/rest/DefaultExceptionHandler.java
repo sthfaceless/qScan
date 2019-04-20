@@ -12,7 +12,7 @@ import ru.spaceouter.infoscan.exceptions.*;
 @RestControllerAdvice
 public class DefaultExceptionHandler extends AbstractRestController{
 
-    @ExceptionHandler(UnexpectedServerException.class)
+    @ExceptionHandler({UnexpectedServerException.class, Exception.class})
     public ResponseEntity<?> unexpectedServerException(){
        return serverError();
     }

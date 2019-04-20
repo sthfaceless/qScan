@@ -1,6 +1,8 @@
 package ru.spaceouter.infoscan.services.implementations;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.services.UpdateService;
 
 /**
@@ -8,6 +10,7 @@ import ru.spaceouter.infoscan.services.UpdateService;
  * @date 20.04.19
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class UpdateServiceImpl implements UpdateService {
 
     @Override

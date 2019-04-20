@@ -1,8 +1,12 @@
 package ru.spaceouter.infoscan.services.implementations;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import ru.spaceouter.infoscan.dto.auth.AuthDTO;
 import ru.spaceouter.infoscan.dto.auth.CreateUserDTO;
 import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
+import ru.spaceouter.infoscan.model.AuthDAO;
 import ru.spaceouter.infoscan.services.AuthService;
 
 /**
@@ -10,7 +14,19 @@ import ru.spaceouter.infoscan.services.AuthService;
  * @date 20.04.19
  */
 @Service
+@Transactional(propagation = Propagation.REQUIRED)
 public class AuthServiceImpl implements AuthService {
+
+    private final AuthDAO authDAO;
+
+    public AuthServiceImpl(AuthDAO authDAO) {
+        this.authDAO = authDAO;
+    }
+
+    @Override
+    public void auth(AuthDTO authDTO) {
+
+    }
 
     @Override
     public void createUser(CreateUserDTO createUserDTO) {

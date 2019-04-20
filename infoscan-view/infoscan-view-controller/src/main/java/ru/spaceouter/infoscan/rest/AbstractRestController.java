@@ -21,8 +21,8 @@ public abstract class AbstractRestController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    protected ResponseEntity<?> found(){
-        return new ResponseEntity<>(HttpStatus.OK);
+    protected <T> ResponseEntity<T>  found(T obj){
+        return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
     protected ResponseEntity<?> badRequest(){
