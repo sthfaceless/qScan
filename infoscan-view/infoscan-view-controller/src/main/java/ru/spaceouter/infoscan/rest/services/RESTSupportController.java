@@ -1,9 +1,10 @@
-package ru.spaceouter.infoscan.rest;
+package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.spaceouter.infoscan.rest.AbstractRestController;
 
 /**
  * @author danil
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/api/support")
-public class RESTSupportController extends AbstractRestController{
+public class RESTSupportController extends AbstractRestController {
 
     @PostMapping
     public ResponseEntity<?> createQuestion(){

@@ -4,5 +4,5 @@ package ru.spaceouter.infoscan.exceptions;
  * @author danil
  * @date 20.04.19
  */
-public class UnexpectedServerException {
+public class UnexpectedServerException extends Exception {
 }

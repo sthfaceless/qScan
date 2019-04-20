@@ -4,5 +4,5 @@ package ru.spaceouter.infoscan.exceptions;
  * @author danil
  * @date 20.04.19
  */
-public class NotFoundException {
+public class NotFoundException extends Exception {
 }

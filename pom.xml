@@ -23,6 +23,7 @@
         <module>infoscan-services</module>
         <module>infoscan-view</module>
         <module>infoscan-master</module>
+        <module>infoscan-exceptions</module>
     </modules>
 
     <properties>

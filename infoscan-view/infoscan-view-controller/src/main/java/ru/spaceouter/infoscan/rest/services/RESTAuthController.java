@@ -1,7 +1,8 @@
-package ru.spaceouter.infoscan.rest;
+package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.spaceouter.infoscan.rest.AbstractRestController;
 
 /**
  * @author danil
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/api/auth")
-public class RESTAuthController extends AbstractRestController{
+public class RESTAuthController extends AbstractRestController {
 
     @PostMapping
     public ResponseEntity<?> auth(){

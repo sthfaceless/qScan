@@ -1,8 +1,13 @@
 package ru.spaceouter.infoscan.services;
 
+import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
+
 /**
  * @author danil
  * @date 20.04.19
  */
 public interface SupportService {
+
+    void createQuestion(CreateQuestionDTO createQuestionDTO);
+
 }
