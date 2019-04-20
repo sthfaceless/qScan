@@ -14,7 +14,7 @@ class Main extends Component{
                             <h1 className="title white-text">InfoScan</h1>
                         </div>
                         <h6 className="subtitle white-text">Найдите кого угодно</h6>
-                        <Link className="start red accen-4 white-text" to='/reg'>Попробовать</Link>
+                        <Link className="start red accent-4 white-text" to='/reg'>Попробовать</Link>
                     </div>
                 </div>
             </div>
