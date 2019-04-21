@@ -11,6 +11,6 @@ import ru.spaceouter.infoscan.model.entities.UserEntity;
 @Repository
 public interface AuthDAO extends CrudRepository<UserEntity, Long> {
 
-    UserEntity getByLogin(String email);
+    UserEntity getByToken(String token);
 
 }

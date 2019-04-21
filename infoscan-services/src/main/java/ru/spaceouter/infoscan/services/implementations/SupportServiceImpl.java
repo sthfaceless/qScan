@@ -15,7 +15,7 @@ import ru.spaceouter.infoscan.services.SupportService;
 public class SupportServiceImpl implements SupportService {
 
     @Override
-    public void createQuestion(CreateQuestionDTO createQuestionDTO) {
+    public void createQuestion(long userId, CreateQuestionDTO createQuestionDTO) {
 
     }
 

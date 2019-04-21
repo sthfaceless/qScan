@@ -1,5 +1,6 @@
 package ru.spaceouter.infoscan.rest;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -14,27 +15,32 @@ public class DefaultExceptionHandler extends AbstractRestController{
 
     @ExceptionHandler({UnexpectedServerException.class, Exception.class})
     public ResponseEntity<?> unexpectedServerException(){
-       return serverError();
+
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<?> notFoundException(){
-        return notFound();
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<?> unauthorizedException(){
-        return nonAuthorized();
+
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(WrongArgumentsException.class)
     public ResponseEntity<?> wrongArgumentException(){
-        return badRequest();
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<?> accessDeniedException(){
-        return accessDenied();
+
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 }

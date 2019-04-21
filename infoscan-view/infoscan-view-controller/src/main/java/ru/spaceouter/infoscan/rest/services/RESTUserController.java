@@ -5,9 +5,12 @@ import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.AuthDTO;
 import ru.spaceouter.infoscan.dto.auth.CreateUserDTO;
 import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
-import ru.spaceouter.infoscan.model.AuthDAO;
+import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
+import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.AbstractRestController;
+import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
 import ru.spaceouter.infoscan.services.AuthService;
+import ru.spaceouter.infoscan.services.UserService;
 
 /**
  * @author danil
@@ -15,27 +18,21 @@ import ru.spaceouter.infoscan.services.AuthService;
  */
 @RestController
 @RequestMapping("/api/auth")
-public class RESTAuthController extends AbstractRestController {
+public class RESTUserController extends RestControllerWithAuthorization<UserAuthDTO> {
 
-    private final AuthService authService;
+    private final UserService userService;
 
-    public RESTAuthController(AuthService authService) {
-        this.authService = authService;
-    }
-
-    @PostMapping
-    public ResponseEntity<?> auth(@RequestBody AuthDTO authDTO){
-
-        authService.auth(authDTO);
-
-        return ok();
+    public RESTUserController(AuthService<UserAuthDTO> authService,
+                              UserService userService) {
+        super(authService);
+        this.userService = userService;
     }
 
     @PostMapping
     @RequestMapping(path = "/reg")
     public ResponseEntity<?> reg(@RequestBody CreateUserDTO createUserDTO){
 
-        authService.createUser(createUserDTO);
+        userService.createUser(createUserDTO);
         return created();
     }
 
@@ -43,7 +40,7 @@ public class RESTAuthController extends AbstractRestController {
     @RequestMapping(path = "/reg/{uuid}")
     public ResponseEntity<?> regConfirm(@PathVariable("uuid") String uuid){
 
-        authService.activateUser(uuid);
+        userService.activateUser(uuid);
         return accepted();
     }
 
@@ -51,7 +48,7 @@ public class RESTAuthController extends AbstractRestController {
     @RequestMapping(path = "/restore")
     public ResponseEntity<?> restore(@RequestBody RestoreDTO restoreDTO){
 
-        authService.restore(restoreDTO);
+        userService.restore(restoreDTO);
         return created();
     }
 
@@ -59,15 +56,17 @@ public class RESTAuthController extends AbstractRestController {
     @RequestMapping(path = "/restore/{uuid}")
     public ResponseEntity<?> restoreConfirm(@PathVariable("uuid") String uuid){
 
-        authService.confirmRestore(uuid);
+        userService.confirmRestore(uuid);
         return accepted();
     }
 
     @PostMapping
     @RequestMapping(path = "/logout")
-    public ResponseEntity<?> logout(){
+    public ResponseEntity<?> logout(@CookieValue(name = "token", required = false) String token)
+            throws UnauthorizedException {
 
-        authService.logout();
+        userService.logout(
+                getAuthDataByToken(token).getUserId());
         return ok();
     }
 

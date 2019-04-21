@@ -10,10 +10,10 @@ import java.util.List;
  */
 public interface CoinsService {
 
-    int getCoinsSize();
+    long getCoinsSize(long userId);
 
-    List<PaymentDTO> getPaymentsHistory();
+    List<PaymentDTO> getPaymentsHistory(long userId);
 
-    void requestPayment();
+    void requestPayment(long userId);
 
 }

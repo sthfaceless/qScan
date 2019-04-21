@@ -25,24 +25,4 @@ public abstract class AbstractRestController {
         return new ResponseEntity<>(obj, HttpStatus.OK);
     }
 
-    protected ResponseEntity<?> badRequest(){
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    protected ResponseEntity<?> nonAuthorized(){
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    protected ResponseEntity<?> accessDenied(){
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
-
-    protected ResponseEntity<?> notFound(){
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
-    protected ResponseEntity<?> serverError(){
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 }

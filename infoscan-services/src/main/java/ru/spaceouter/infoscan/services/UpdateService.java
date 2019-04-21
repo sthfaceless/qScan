@@ -6,10 +6,10 @@ package ru.spaceouter.infoscan.services;
  */
 public interface UpdateService {
 
-    void updateEmail(String email);
+    void updateEmail(long userId, String email);
 
     void confirmEmailUpdating(String uuid);
 
-    void updatePassword(String pass);
+    void updatePassword(long userId, String pass);
 
 }

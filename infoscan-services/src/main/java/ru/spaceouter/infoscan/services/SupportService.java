@@ -8,6 +8,6 @@ import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
  */
 public interface SupportService {
 
-    void createQuestion(CreateQuestionDTO createQuestionDTO);
+    void createQuestion(long userId, CreateQuestionDTO createQuestionDTO);
 
 }

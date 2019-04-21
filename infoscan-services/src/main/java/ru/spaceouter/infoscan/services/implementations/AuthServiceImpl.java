@@ -1,55 +1,44 @@
 package ru.spaceouter.infoscan.services.implementations;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.auth.AuthDTO;
-import ru.spaceouter.infoscan.dto.auth.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
+import org.springframework.util.StringUtils;
+import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
+import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.model.AuthDAO;
+import ru.spaceouter.infoscan.model.entities.UserEntity;
 import ru.spaceouter.infoscan.services.AuthService;
 
 /**
  * @author danil
- * @date 20.04.19
+ * @date 21.04.19
  */
 @Service
-@Transactional(propagation = Propagation.REQUIRED)
-public class AuthServiceImpl implements AuthService {
+@RequiredArgsConstructor
+public class AuthServiceImpl implements AuthService<UserAuthDTO> {
 
     private final AuthDAO authDAO;
 
-    public AuthServiceImpl(AuthDAO authDAO) {
-        this.authDAO = authDAO;
-    }
-
+    /*
+    * Cached method:
+    * If user contains in cache then it will get from cache
+    * else it will open transaction ang get from database
+    * */
     @Override
-    public void auth(AuthDTO authDTO) {
+    public UserAuthDTO getAuthUser(String token){
 
+        UserEntity userEntity = getUserFromDatabase(token);
+
+        return new UserAuthDTO(userEntity.getUserId(),
+                userEntity.getLogin());
     }
 
-    @Override
-    public void createUser(CreateUserDTO createUserDTO) {
+    @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
+    protected UserEntity getUserFromDatabase(String token){
 
+      return authDAO.getByToken(token);
     }
 
-    @Override
-    public void activateUser(String uuid) {
-
-    }
-
-    @Override
-    public void restore(RestoreDTO restoreDTO) {
-
-    }
-
-    @Override
-    public void confirmRestore(String uuid) {
-
-    }
-
-    @Override
-    public void logout() {
-
-    }
 }

@@ -19,23 +19,23 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<ViewOrderDTO> getOrders() {
+    public List<ViewOrderDTO> getOrders(long userId) {
         return null;
     }
 
     @Transactional(readOnly = true)
     @Override
-    public FullOrderDTO getOrder(long id) {
+    public FullOrderDTO getOrder(long userId, long orderId) {
         return null;
     }
 
     @Override
-    public void createOrder(FullOrderDTO fullOrderDTO) {
+    public void createOrder(long userId, FullOrderDTO fullOrderDTO) {
 
     }
 
     @Override
-    public void updateOrder(FullOrderDTO fullOrderDTO) {
+    public void updateOrder(long userId, FullOrderDTO fullOrderDTO) {
 
     }
 }

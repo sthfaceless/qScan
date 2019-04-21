@@ -1,11 +1,12 @@
 package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
+import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.AbstractRestController;
+import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
+import ru.spaceouter.infoscan.services.AuthService;
 import ru.spaceouter.infoscan.services.CoinsService;
 
 /**
@@ -14,31 +15,40 @@ import ru.spaceouter.infoscan.services.CoinsService;
  */
 @RestController
 @RequestMapping("/api/coins")
-public class RESTCoinsController extends AbstractRestController {
+public class RESTCoinsController extends RestControllerWithAuthorization<UserAuthDTO> {
 
     private final CoinsService coinsService;
 
-    public RESTCoinsController(CoinsService coinsService) {
+    public RESTCoinsController(AuthService<UserAuthDTO> authService,
+                               CoinsService coinsService) {
+        super(authService);
         this.coinsService = coinsService;
     }
 
     @GetMapping
-    public ResponseEntity<?> getCoins(){
+    public ResponseEntity<?> getCoins(@CookieValue(name = "token", required = false) String token)
+            throws UnauthorizedException {
 
-        return found(coinsService.getCoinsSize());
+        return found(coinsService.getCoinsSize(
+                getAuthDataByToken(token).getUserId()));
     }
 
     @GetMapping
     @RequestMapping(path = "/history")
-    public ResponseEntity<?> getPaymentHistory(){
+    public ResponseEntity<?> getPaymentHistory(@CookieValue(name = "token", required = false) String token)
+            throws UnauthorizedException {
 
-        return found(coinsService.getPaymentsHistory());
+        return found(coinsService.getPaymentsHistory(
+                getAuthDataByToken(token).getUserId()));
     }
 
     @PostMapping
-    public ResponseEntity<?> createPaymentRequest(){
+    public ResponseEntity<?> createPaymentRequest(@CookieValue(name = "token", required = false) String token)
+            throws UnauthorizedException {
 
-        coinsService.requestPayment();
+        coinsService.requestPayment(
+                getAuthDataByToken(token).getUserId());
+
         return accepted();
     }
 

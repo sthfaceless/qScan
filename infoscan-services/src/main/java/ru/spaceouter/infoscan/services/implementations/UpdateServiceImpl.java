@@ -14,7 +14,7 @@ import ru.spaceouter.infoscan.services.UpdateService;
 public class UpdateServiceImpl implements UpdateService {
 
     @Override
-    public void updateEmail(String email) {
+    public void updateEmail(long userId, String email) {
 
     }
 
@@ -24,7 +24,7 @@ public class UpdateServiceImpl implements UpdateService {
     }
 
     @Override
-    public void updatePassword(String pass) {
+    public void updatePassword(long userId, String pass) {
 
     }
 }

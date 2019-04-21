@@ -1,5 +1,6 @@
 package ru.spaceouter.infoscan.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.Id;
  * @date 20.04.19
  */
 @Data
+@AllArgsConstructor
 public class UserEntity {
 
     @Id
@@ -15,5 +17,6 @@ public class UserEntity {
     private String login;
     private String email;
     private String password;
+    private String token;
 
 }

@@ -31,6 +31,12 @@
             <version>${project.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-exceptions</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>

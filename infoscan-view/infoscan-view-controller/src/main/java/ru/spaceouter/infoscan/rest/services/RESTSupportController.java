@@ -1,12 +1,13 @@
 package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
+import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.AbstractRestController;
+import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
+import ru.spaceouter.infoscan.services.AuthService;
 import ru.spaceouter.infoscan.services.SupportService;
 
 /**
@@ -15,18 +16,24 @@ import ru.spaceouter.infoscan.services.SupportService;
  */
 @RestController
 @RequestMapping("/api/support")
-public class RESTSupportController extends AbstractRestController {
+public class RESTSupportController extends RestControllerWithAuthorization<UserAuthDTO> {
 
     private final SupportService supportService;
 
-    public RESTSupportController(SupportService supportService) {
+    public RESTSupportController(AuthService<UserAuthDTO> authService,
+                                 SupportService supportService) {
+        super(authService);
         this.supportService = supportService;
     }
 
     @PostMapping
-    public ResponseEntity<?> createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO){
+    public ResponseEntity<?> createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO,
+                                            @CookieValue(name = "token", required = false) String token)
+            throws UnauthorizedException {
 
-        supportService.createQuestion(createQuestionDTO);
+        supportService.createQuestion(
+                getAuthDataByToken(token).getUserId(),
+                createQuestionDTO);
         return created();
     }
 

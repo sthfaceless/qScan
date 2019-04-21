@@ -11,12 +11,12 @@ import java.util.List;
  */
 public interface OrdersService {
 
-    List<ViewOrderDTO> getOrders();
+    List<ViewOrderDTO> getOrders(long userId);
 
-    FullOrderDTO getOrder(long id);
+    FullOrderDTO getOrder(long userId, long orderId);
 
-    void createOrder(FullOrderDTO fullOrderDTO);
+    void createOrder(long userId, FullOrderDTO fullOrderDTO);
 
-    void updateOrder(FullOrderDTO fullOrderDTO);
+    void updateOrder(long userId , FullOrderDTO fullOrderDTO);
 
 }
