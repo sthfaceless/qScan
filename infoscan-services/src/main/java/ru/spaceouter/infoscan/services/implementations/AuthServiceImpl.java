@@ -1,14 +1,14 @@
 package ru.spaceouter.infoscan.services.implementations;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
-import ru.spaceouter.infoscan.model.AuthDAO;
-import ru.spaceouter.infoscan.model.entities.UserEntity;
+import ru.spaceouter.infoscan.model.AuthSpringDAO;
+import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.services.AuthService;
 
 /**
@@ -16,10 +16,10 @@ import ru.spaceouter.infoscan.services.AuthService;
  * @date 21.04.19
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService<UserAuthDTO> {
 
-    private final AuthDAO authDAO;
+    private final AuthSpringDAO authSpringDAO;
 
     /*
     * Cached method:
@@ -27,18 +27,20 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
     * else it will open transaction ang get from database
     * */
     @Override
+    @Cacheable(cacheNames = "authentications", key = "#token")
     public UserAuthDTO getAuthUser(String token){
 
-        UserEntity userEntity = getUserFromDatabase(token);
+        AuthEntity authEntity = getUserFromDatabase(token);
 
-        return new UserAuthDTO(userEntity.getUserId(),
-                userEntity.getLogin());
+        return new UserAuthDTO(authEntity.getAuthId(),
+                authEntity.getUsername());
     }
 
+    @CachePut(cacheNames = "authentications", key = "#token")
     @Transactional(readOnly = true, propagation = Propagation.REQUIRED)
-    protected UserEntity getUserFromDatabase(String token){
+    public AuthEntity getUserFromDatabase(String token){
 
-      return authDAO.getByToken(token);
+      return authSpringDAO.getByToken(token);
     }
 
 }

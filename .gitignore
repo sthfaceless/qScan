@@ -6,3 +6,4 @@ InfoScan_Architecture.png
 infoscan-view/infoscan-view-react/node_modules/*
 build/*
 infoscan-master/src/main/webapp/WEB-INF/lib/*
+infoscan-master/src/main/resources/security.properties

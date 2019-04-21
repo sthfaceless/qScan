@@ -2,16 +2,18 @@ package ru.spaceouter.infoscan.dto.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * @author danil
  * @date 20.04.19
  */
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class AuthDTO {
 
-    private final String login;
-    private final String password;
+    private String login;
+    private String password;
 
 }

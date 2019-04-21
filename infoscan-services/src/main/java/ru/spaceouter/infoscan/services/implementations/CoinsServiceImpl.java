@@ -1,11 +1,11 @@
 package ru.spaceouter.infoscan.services.implementations;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
-import ru.spaceouter.infoscan.services.AuthService;
+import ru.spaceouter.infoscan.model.CoinsSpringDAO;
 import ru.spaceouter.infoscan.services.CoinsService;
 
 import java.util.List;
@@ -15,9 +15,11 @@ import java.util.List;
  * @date 20.04.19
  */
 @Service
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Transactional(propagation = Propagation.REQUIRED)
 public class CoinsServiceImpl implements CoinsService {
+
+    private final CoinsSpringDAO coinsDAO;
 
     @Transactional(readOnly = true)
     @Override
@@ -29,6 +31,7 @@ public class CoinsServiceImpl implements CoinsService {
     @Transactional(readOnly = true)
     @Override
     public List<PaymentDTO> getPaymentsHistory(long userId) {
+
 
         return null;
     }

@@ -14,8 +14,9 @@ import ru.spaceouter.infoscan.exceptions.*;
 public class DefaultExceptionHandler extends AbstractRestController{
 
     @ExceptionHandler({UnexpectedServerException.class, Exception.class})
-    public ResponseEntity<?> unexpectedServerException(){
+    public ResponseEntity<?> unexpectedServerException(Exception exception){
 
+        exception.printStackTrace();
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

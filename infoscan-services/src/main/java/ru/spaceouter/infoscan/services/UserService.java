@@ -3,6 +3,7 @@ package ru.spaceouter.infoscan.services;
 import ru.spaceouter.infoscan.dto.auth.AuthDTO;
 import ru.spaceouter.infoscan.dto.auth.CreateUserDTO;
 import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
+import ru.spaceouter.infoscan.model.entities.user.UserEntity;
 
 /**
  * @author danil
@@ -13,6 +14,8 @@ public interface UserService {
     void auth(AuthDTO authDTO);
 
     void createUser(CreateUserDTO createUserDTO);
+
+    UserEntity getUserByUsername(String username);
 
     void activateUser(String uuid);
 

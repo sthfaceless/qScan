@@ -28,40 +28,41 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
         this.userService = userService;
     }
 
-    @PostMapping
-    @RequestMapping(path = "/reg")
+    @PostMapping(path = "/reg")
     public ResponseEntity<?> reg(@RequestBody CreateUserDTO createUserDTO){
 
         userService.createUser(createUserDTO);
         return created();
     }
 
-    @PutMapping
-    @RequestMapping(path = "/reg/{uuid}")
+    @GetMapping
+    public ResponseEntity<?> getUser(@RequestParam(name = "username") String username){
+
+        return found(userService.getUserByUsername(username));
+    }
+
+    @PutMapping(path = "/reg/{uuid}")
     public ResponseEntity<?> regConfirm(@PathVariable("uuid") String uuid){
 
         userService.activateUser(uuid);
         return accepted();
     }
 
-    @PostMapping
-    @RequestMapping(path = "/restore")
+    @PostMapping(path = "/restore")
     public ResponseEntity<?> restore(@RequestBody RestoreDTO restoreDTO){
 
         userService.restore(restoreDTO);
         return created();
     }
 
-    @PutMapping
-    @RequestMapping(path = "/restore/{uuid}")
+    @PutMapping(path = "/restore/{uuid}")
     public ResponseEntity<?> restoreConfirm(@PathVariable("uuid") String uuid){
 
         userService.confirmRestore(uuid);
         return accepted();
     }
 
-    @PostMapping
-    @RequestMapping(path = "/logout")
+    @PostMapping(path = "/logout")
     public ResponseEntity<?> logout(@CookieValue(name = "token", required = false) String token)
             throws UnauthorizedException {
 
