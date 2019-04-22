@@ -1,10 +1,17 @@
 package ru.spaceouter.infoscan.rest;
 
+import org.hibernate.Hibernate;
+import org.hibernate.HibernateException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import ru.spaceouter.infoscan.exceptions.*;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author danil
@@ -13,11 +20,26 @@ import ru.spaceouter.infoscan.exceptions.*;
 @RestControllerAdvice
 public class DefaultExceptionHandler extends AbstractRestController{
 
-    @ExceptionHandler({UnexpectedServerException.class, Exception.class})
+    @ExceptionHandler({UnexpectedServerException.class, MessagingException.class, HibernateException.class})
     public ResponseEntity<?> unexpectedServerException(Exception exception){
 
+        //TODO stack trace for debug
         exception.printStackTrace();
         return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(InvalidAuthenticationException.class)
+    public ResponseEntity<?> invalidAuthenticationException(
+            final HttpServletRequest request,
+            final HttpServletResponse response){
+
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            cookie.setMaxAge(0);
+            response.addCookie(cookie);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
     @ExceptionHandler(NotFoundException.class)

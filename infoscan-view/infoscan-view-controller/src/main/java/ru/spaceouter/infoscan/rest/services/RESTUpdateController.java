@@ -3,13 +3,14 @@ package ru.spaceouter.infoscan.rest.services;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.update.UpdateEmailDTO;
-import ru.spaceouter.infoscan.dto.update.UpdatePasswordDTO;
+import ru.spaceouter.infoscan.dto.view.UpdateEmailDTO;
+import ru.spaceouter.infoscan.dto.view.UpdatePasswordDTO;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
-import ru.spaceouter.infoscan.rest.AbstractRestController;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
 import ru.spaceouter.infoscan.services.AuthService;
 import ru.spaceouter.infoscan.services.UpdateService;
+
+import javax.mail.MessagingException;
 
 /**
  * @author danil
@@ -31,7 +32,7 @@ public class RESTUpdateController extends RestControllerWithAuthorization<UserAu
     @RequestMapping(path = "/email")
     public ResponseEntity<?> updateEmail(@RequestBody UpdateEmailDTO updateEmailDTO,
                                          @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+            throws UnauthorizedException, MessagingException {
 
         updateService.updateEmail(
                 getAuthDataByToken(token).getUserId(),
@@ -55,7 +56,8 @@ public class RESTUpdateController extends RestControllerWithAuthorization<UserAu
 
         updateService.updatePassword(
                 getAuthDataByToken(token).getUserId(),
-                updatePasswordDTO.getPassword());
+                updatePasswordDTO.getPassword(),
+                updatePasswordDTO.getNewPassword());
         return accepted();
     }
 

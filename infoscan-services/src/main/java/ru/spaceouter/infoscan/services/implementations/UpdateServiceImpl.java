@@ -1,9 +1,19 @@
 package ru.spaceouter.infoscan.services.implementations;
 
+import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import ru.spaceouter.infoscan.model.ActivateCustomDAO;
+import ru.spaceouter.infoscan.model.AuthSpringDAO;
+import ru.spaceouter.infoscan.model.entities.user.UserEntity;
+import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
+import ru.spaceouter.infoscan.services.EmailService;
 import ru.spaceouter.infoscan.services.UpdateService;
+import ru.spaceouter.infoscan.services.simple.TokenService;
+
+import javax.mail.MessagingException;
 
 /**
  * @author danil
@@ -11,20 +21,42 @@ import ru.spaceouter.infoscan.services.UpdateService;
  */
 @Service
 @Transactional(propagation = Propagation.REQUIRED)
+@AllArgsConstructor
 public class UpdateServiceImpl implements UpdateService {
 
-    @Override
-    public void updateEmail(long userId, String email) {
+    private final ActivateCustomDAO activateCustomDAO;
+    private final AuthSpringDAO authSpringDAO;
+    private final ProxyDAO proxyDAO;
 
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    private final EmailService emailService;
+    private final TokenService tokenService;
+
+    @Override
+    public void updateEmail(long userId, String email) throws MessagingException {
+
+        String token = tokenService.nextToken();
+        activateCustomDAO.setConfirmEmailToken(userId, token, email);
+
+        emailService.sendConfirmEmailMessage(email, token);
     }
 
     @Override
-    public void confirmEmailUpdating(String uuid) {
+    public boolean confirmEmailUpdating(String uuid) {
 
+       return activateCustomDAO.confirmEmail(uuid);
     }
 
     @Override
-    public void updatePassword(long userId, String pass) {
+    public boolean updatePassword(long userId, String pass, String newPass) {
 
+        UserEntity user = proxyDAO.getUserProxy(userId);
+
+        if(!bCryptPasswordEncoder.matches(pass, authSpringDAO.getPasswordByUser(user)))
+            return false;
+
+        authSpringDAO.updatePassword(pass, user);
+        return true;
     }
 }

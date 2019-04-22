@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.dto.update;
+package ru.spaceouter.infoscan.dto.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

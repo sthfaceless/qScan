@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.dto.auth;
+package ru.spaceouter.infoscan.dto.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,8 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateUserDTO {
+public class CreateQuestionDTO {
 
-    private String login;
-    private String email;
-    private String password;
+    private String question;
 
 }

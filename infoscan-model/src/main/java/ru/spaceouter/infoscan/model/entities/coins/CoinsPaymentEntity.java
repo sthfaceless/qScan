@@ -15,7 +15,15 @@ import java.util.Date;
 @Data
 @Table(name = "coins_payments")
 @NoArgsConstructor
+@org.hibernate.annotations.NamedQueries({
+        @org.hibernate.annotations.NamedQuery(name = "getPaymentsByUser",
+        query = "select new ru.spaceouter.infoscan.dto.coins.PaymentDTO(" +
+                "coinsPaymentId, quantity, date, service" +
+                ") from CoinsPaymentEntity where user = :user")
+})
 public class CoinsPaymentEntity {
+
+    public static final String GET_PAYMENTS_BY_USER = "getPaymentsByUser";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

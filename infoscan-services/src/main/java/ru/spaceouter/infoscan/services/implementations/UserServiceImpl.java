@@ -5,18 +5,21 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.auth.AuthDTO;
-import ru.spaceouter.infoscan.dto.auth.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.auth.RestoreDTO;
 import ru.spaceouter.infoscan.dto.auth.Role;
-import ru.spaceouter.infoscan.model.AuthSpringDAO;
+import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
+import ru.spaceouter.infoscan.dto.view.RestoreDTO;
+import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
+import ru.spaceouter.infoscan.model.ActivateCustomDAO;
 import ru.spaceouter.infoscan.model.UserSpringDAO;
+import ru.spaceouter.infoscan.model.entities.user.ActivationEntity;
 import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.model.entities.user.RoleEntity;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
+import ru.spaceouter.infoscan.services.EmailService;
 import ru.spaceouter.infoscan.services.UserService;
 import ru.spaceouter.infoscan.services.simple.TokenService;
 
+import javax.mail.MessagingException;
 import java.util.Date;
 
 /**
@@ -28,19 +31,16 @@ import java.util.Date;
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
 
+    private EmailService emailService;
+
     private final UserSpringDAO userSpringDAO;
-    private final AuthSpringDAO authSpringDAO;
+    private final ActivateCustomDAO activateCustomDAO;
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
 
     @Override
-    public void auth(AuthDTO authDTO) {
-
-    }
-
-    @Override
-    public void createUser(CreateUserDTO createUserDTO) {
+    public void createUser(CreateUserDTO createUserDTO) throws MessagingException {
 
         final UserEntity userEntity = new UserEntity(
                 createUserDTO.getLogin(),
@@ -53,14 +53,21 @@ public class UserServiceImpl implements UserService {
                 createUserDTO.getLogin(),
                 bCryptPasswordEncoder.encode(createUserDTO.getPassword()),
                 tokenService.nextToken(),
+                false,
                 roleEntity
         );
         authEntity.setUser(userEntity);
+
+        ActivationEntity activation = new ActivationEntity(authEntity);
+        activation.setActivateAccount(tokenService.nextToken());
+        authEntity.setActivation(activation);
 
         roleEntity.setAuth(authEntity);
         userEntity.setAuth(authEntity);
 
         userSpringDAO.save(userEntity);
+
+        emailService.sendActivateAccountMessage(createUserDTO.getEmail(), activation.getActivateAccount());
     }
 
     @Override
@@ -70,22 +77,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void activateUser(String uuid) {
+    public boolean activateUser(String uuid) {
+        return activateCustomDAO.activateAccount(uuid);
+    }
+
+    @Override
+    public void restore(StartRestoreDTO startRestoreDTO) throws MessagingException {
+
+        String confirmRestore = tokenService.nextToken();
+        activateCustomDAO.setConfirmPasswordToken(confirmRestore, startRestoreDTO.getEmail());
+
+        emailService.sendConfirmPasswordRestoreMessage(startRestoreDTO.getEmail(), confirmRestore);
 
     }
 
     @Override
-    public void restore(RestoreDTO restoreDTO) {
-
+    public boolean confirmRestore(RestoreDTO restoreDTO) {
+       return activateCustomDAO.confirmPassword(restoreDTO.getUuid(),
+               bCryptPasswordEncoder.encode(restoreDTO.getPassword()));
     }
 
     @Override
-    public void confirmRestore(String uuid) {
-
+    public boolean existEmail(String email) {
+        return userSpringDAO.existsByEmail(email);
     }
 
     @Override
-    public void logout(long userId) {
-
+    public boolean existUsername(String username) {
+        return userSpringDAO.existsByUsername(username);
     }
 }

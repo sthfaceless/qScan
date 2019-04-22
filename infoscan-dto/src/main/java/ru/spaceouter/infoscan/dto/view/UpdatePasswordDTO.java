@@ -1,4 +1,4 @@
-package ru.spaceouter.infoscan.dto.update;
+package ru.spaceouter.infoscan.dto.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class UpdatePasswordDTO {
 
     private String password;
+    private String newPassword;
 
 }

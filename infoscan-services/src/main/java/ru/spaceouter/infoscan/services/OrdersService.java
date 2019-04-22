@@ -1,7 +1,7 @@
 package ru.spaceouter.infoscan.services;
 
 import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.orders.ViewOrderDTO;
+import ru.spaceouter.infoscan.dto.view.ViewOrderDTO;
 
 import java.util.List;
 

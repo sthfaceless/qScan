@@ -1,0 +1,28 @@
+.sidebar{
+    box-shadow: lightgray 0 0 10px 1px;
+    padding: 0 !important;
+    border-radius: 5px;
+}
+.sidebar .sidebar-element{
+    padding: 10px 20px;
+    text-align: center;
+    border-bottom: 1px solid lightgray;
+    cursor: pointer;
+}
+.sidebar .sidebar-element:first-of-type{
+    border-radius: 5px 5px 0 0;
+}
+.sidebar .sidebar-element:last-of-type{
+    border-bottom: none;
+    border-radius: 0 0 5px 5px;
+}
+.sidebar .sidebar-element:hover{
+    background-color: #f4f4f4;
+}
+.sidebar .active{
+    background: #424242;
+    color: #ffffff;
+}
+.sidebar .active:hover{
+    background: #424242;
+}

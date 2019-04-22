@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.services;
 
-import ru.spaceouter.infoscan.dto.support.CreateQuestionDTO;
+import ru.spaceouter.infoscan.dto.view.CreateQuestionDTO;
 
 /**
  * @author danil

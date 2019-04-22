@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import '../../css/register.css';
 import {Redirect} from "react-router-dom";
 import M from 'materialize-css';
-import FormField from "../components/FormField";
-import AuthForm from "../components/AuthForm";
+import FormField from "../components/forms/FormField";
+import AuthForm from "../components/forms/AuthForm";
 
 class Register extends Component{
     constructor(props) {

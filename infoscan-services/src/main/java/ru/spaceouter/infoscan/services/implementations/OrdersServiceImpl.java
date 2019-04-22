@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.orders.ViewOrderDTO;
+import ru.spaceouter.infoscan.dto.view.ViewOrderDTO;
 import ru.spaceouter.infoscan.services.OrdersService;
 
 import java.util.List;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import '../../css/auth_form.css';
+import '../../../css/auth_form.css';
 
 class AuthForm extends Component{
     render() {

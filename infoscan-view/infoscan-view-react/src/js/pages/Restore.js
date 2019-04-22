@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import '../../css/restore.css';
 import {Redirect} from "react-router-dom";
-import FormField from "../components/FormField";
-import AuthForm from "../components/AuthForm";
+import FormField from "../components/forms/FormField";
+import AuthForm from "../components/forms/AuthForm";
 
 class Restore extends Component {
     constructor(props) {

@@ -5,7 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
+import ru.spaceouter.infoscan.model.CoinsCustomDAO;
 import ru.spaceouter.infoscan.model.CoinsSpringDAO;
+import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
 import ru.spaceouter.infoscan.services.CoinsService;
 
 import java.util.List;
@@ -20,20 +22,22 @@ import java.util.List;
 public class CoinsServiceImpl implements CoinsService {
 
     private final CoinsSpringDAO coinsDAO;
+    private final CoinsCustomDAO coinsCustomDAO;
+    private final ProxyDAO proxyDAO;
 
     @Transactional(readOnly = true)
     @Override
     public long getCoinsSize(long userId) {
 
-        return (long) 0;
+        return coinsDAO.userCoinsSize(
+                proxyDAO.getUserProxy(userId));
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<PaymentDTO> getPaymentsHistory(long userId) {
 
-
-        return null;
+        return coinsCustomDAO.getPayments(userId);
     }
 
     @Override

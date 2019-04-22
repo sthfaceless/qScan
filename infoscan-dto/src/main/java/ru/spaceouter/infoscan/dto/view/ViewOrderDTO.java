@@ -1,7 +1,8 @@
-package ru.spaceouter.infoscan.dto.orders;
+package ru.spaceouter.infoscan.dto.view;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import ru.spaceouter.infoscan.dto.orders.OrderStatus;
 
 import java.util.Date;
 

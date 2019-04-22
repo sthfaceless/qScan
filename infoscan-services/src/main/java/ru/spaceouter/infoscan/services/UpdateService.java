@@ -1,15 +1,17 @@
 package ru.spaceouter.infoscan.services;
 
+import javax.mail.MessagingException;
+
 /**
  * @author danil
  * @date 20.04.19
  */
 public interface UpdateService {
 
-    void updateEmail(long userId, String email);
+    void updateEmail(long userId, String email) throws MessagingException;
 
-    void confirmEmailUpdating(String uuid);
+    boolean confirmEmailUpdating(String uuid);
 
-    void updatePassword(long userId, String pass);
+    boolean updatePassword(long userId, String pass, String newPass);
 
 }
