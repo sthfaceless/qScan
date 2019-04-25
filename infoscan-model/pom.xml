@@ -19,6 +19,18 @@
             <artifactId>infoscan-dto</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-exceptions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>ru.spaceouter</groupId>
+            <artifactId>infoscan-exceptions</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

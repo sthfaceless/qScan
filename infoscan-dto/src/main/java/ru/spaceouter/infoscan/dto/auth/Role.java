@@ -1,7 +1,6 @@
 package ru.spaceouter.infoscan.dto.auth;
 
 import lombok.AllArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author danil

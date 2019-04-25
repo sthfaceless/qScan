@@ -12,7 +12,7 @@ import lombok.Getter;
 public class AuthModelDTO {
 
     private final long authId;
-    private final String login;
+    private final String username;
     private final String password;
     private final String token;
     private final boolean active;

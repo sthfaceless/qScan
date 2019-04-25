@@ -1,6 +1,6 @@
 package ru.spaceouter.infoscan.model;
 
-import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
+import ru.spaceouter.infoscan.dto.view.coins.PaymentDTO;
 
 import java.util.List;
 

@@ -4,10 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
+import ru.spaceouter.infoscan.dto.view.coins.CoinsDTO;
+import ru.spaceouter.infoscan.dto.view.coins.PaymentDTO;
 import ru.spaceouter.infoscan.model.CoinsCustomDAO;
 import ru.spaceouter.infoscan.model.CoinsSpringDAO;
-import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
+import ru.spaceouter.infoscan.model.ProxyDAO;
 import ru.spaceouter.infoscan.services.transactional.CoinsService;
 
 import java.util.List;
@@ -27,10 +28,11 @@ public class CoinsServiceImpl implements CoinsService {
 
     @Transactional(readOnly = true)
     @Override
-    public long getCoinsSize(long userId) {
+    public CoinsDTO getCoinsSize(long userId) {
 
-        return coinsDAO.userCoinsSize(
-                proxyDAO.getUserProxy(userId));
+        long amount = coinsDAO.userCoinsSize(proxyDAO.getUserProxy(userId));
+
+        return new CoinsDTO(userId, amount);
     }
 
     @Transactional(readOnly = true)

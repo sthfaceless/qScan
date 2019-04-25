@@ -12,7 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @date 21.04.19
  */
 @Configuration
-@PropertySource("classpath*:security.properties")
+@PropertySource("classpath:security.properties")
 public class EncryptingConfiguration {
 
     @Setter

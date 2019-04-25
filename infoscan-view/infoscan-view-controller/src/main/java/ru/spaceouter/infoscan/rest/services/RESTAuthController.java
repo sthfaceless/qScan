@@ -1,16 +1,18 @@
 package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.view.AuthCredentialsDTO;
-import ru.spaceouter.infoscan.dto.view.AuthTokenDTO;
+import ru.spaceouter.infoscan.dto.view.auth.AuthCredentialsDTO;
+import ru.spaceouter.infoscan.dto.view.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.AbstractRestController;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 /**
  * @author danil
@@ -27,8 +29,12 @@ public class RESTAuthController extends AbstractRestController {
     }
 
     @PostMapping
-    public ResponseEntity<?> authWithCredentials(@RequestBody AuthCredentialsDTO authCredentialsDTO,
+    public ResponseEntity<?> authWithCredentials(@Valid @RequestBody AuthCredentialsDTO authCredentialsDTO,
+                                                 BindingResult bindingResult,
                                                  HttpServletResponse response) throws InvalidAuthenticationException {
+
+        if(bindingResult.hasErrors())
+            throw new InvalidAuthenticationException();
 
         return found(authService.authWithCredentials(authCredentialsDTO, response));
     }
@@ -41,7 +47,7 @@ public class RESTAuthController extends AbstractRestController {
     }
 
     @PostMapping(path = "/logout")
-    public ResponseEntity<?> logout(@CookieValue(name = "token", required = false) String token,
+    public ResponseEntity<?> logout(@CookieValue(name = "auth_token", required = false) String token,
                                     HttpServletResponse response)
             throws UnauthorizedException {
 

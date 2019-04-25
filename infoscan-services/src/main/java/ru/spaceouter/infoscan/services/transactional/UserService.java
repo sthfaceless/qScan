@@ -1,8 +1,7 @@
 package ru.spaceouter.infoscan.services.transactional;
 
-import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.view.RestoreDTO;
-import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
+import ru.spaceouter.infoscan.dto.view.user.CreateUserDTO;
+import ru.spaceouter.infoscan.dto.view.auth.RestoreDTO;
 
 /**
  * @author danil
@@ -14,7 +13,7 @@ public interface UserService {
 
     boolean activateUser(String uuid);
 
-    void restore(StartRestoreDTO startRestoreDTO);
+    void restore(String email);
 
     boolean confirmRestore(RestoreDTO restoreDTO);
 

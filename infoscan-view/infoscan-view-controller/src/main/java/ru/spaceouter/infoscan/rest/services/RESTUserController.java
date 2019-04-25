@@ -3,14 +3,19 @@ package ru.spaceouter.infoscan.rest.services;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.view.RestoreDTO;
-import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
+import ru.spaceouter.infoscan.dto.view.ConfirmDTO;
+import ru.spaceouter.infoscan.dto.view.EmailDTO;
+import ru.spaceouter.infoscan.dto.view.user.CreateUserDTO;
+import ru.spaceouter.infoscan.dto.view.auth.RestoreDTO;
+import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
 import ru.spaceouter.infoscan.services.transactional.UserService;
+
+import javax.validation.Valid;
 
 /**
  * @author danil
@@ -29,7 +34,11 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
     }
 
     @PostMapping(path = "/reg")
-    public ResponseEntity<?> reg(@RequestBody CreateUserDTO createUserDTO){
+    public ResponseEntity<?> reg(@Valid @RequestBody CreateUserDTO createUserDTO,
+                                 BindingResult bindingResult) throws WrongArgumentsException {
+
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
 
         userService.createUser(createUserDTO);
         return created();
@@ -47,22 +56,34 @@ public class RESTUserController extends RestControllerWithAuthorization<UserAuth
             return ok();
     }
 
-    @PutMapping(path = "/reg/{uuid}")
-    public ResponseEntity<?> regConfirm(@PathVariable("uuid") String uuid){
+    @PutMapping(path = "/reg")
+    public ResponseEntity<?> regConfirm(@Valid @RequestBody ConfirmDTO confirmDTO,
+                                        BindingResult bindingResult) throws WrongArgumentsException {
 
-        userService.activateUser(uuid);
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
+
+        userService.activateUser(confirmDTO.getUuid());
         return accepted();
     }
 
     @PostMapping(path = "/restore")
-    public ResponseEntity<?> restore(@RequestBody StartRestoreDTO startRestoreDTO) {
+    public ResponseEntity<?> restore(@Valid @RequestBody EmailDTO emailDTO,
+                                     BindingResult bindingResult) throws WrongArgumentsException {
 
-        userService.restore(startRestoreDTO);
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
+
+        userService.restore(emailDTO.getEmail());
         return created();
     }
 
-    @PutMapping(path = "/restore/")
-    public ResponseEntity<?> restoreConfirm(@RequestBody RestoreDTO restoreDTO){
+    @PutMapping(path = "/restore")
+    public ResponseEntity<?> restoreConfirm(@Valid @RequestBody RestoreDTO restoreDTO,
+                                            BindingResult bindingResult) throws WrongArgumentsException {
+
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
 
         userService.confirmRestore(restoreDTO);
         return accepted();

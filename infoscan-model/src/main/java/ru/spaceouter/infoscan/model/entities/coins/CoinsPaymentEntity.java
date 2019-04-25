@@ -13,11 +13,11 @@ import java.util.Date;
  */
 @Entity
 @Data
-@Table(name = "coins_payments")
+@Table(name = "coins_payment")
 @NoArgsConstructor
-@org.hibernate.annotations.NamedQueries({
-        @org.hibernate.annotations.NamedQuery(name = "getPaymentsByUser",
-        query = "select new ru.spaceouter.infoscan.dto.coins.PaymentDTO(" +
+@NamedQueries({
+        @NamedQuery(name = "getPaymentsByUser",
+        query = "select new ru.spaceouter.infoscan.dto.view.coins.PaymentDTO(" +
                 "coinsPaymentId, quantity, date, service" +
                 ") from CoinsPaymentEntity where user = :user")
 })

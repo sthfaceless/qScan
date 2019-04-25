@@ -1,11 +1,15 @@
 package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.orders.UpdateOrderDTO;
-import ru.spaceouter.infoscan.dto.view.PageableRequest;
+import ru.spaceouter.infoscan.dto.view.orders.CreateOrderDTO;
+import ru.spaceouter.infoscan.dto.view.orders.FullOrderDTO;
+import ru.spaceouter.infoscan.dto.view.orders.SocialNetworkDTO;
+import ru.spaceouter.infoscan.dto.view.orders.UpdateOrderDTO;
+import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
+import ru.spaceouter.infoscan.exceptions.NotExistException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
@@ -29,43 +33,34 @@ public class RESTOrdersController extends RestControllerWithAuthorization<UserAu
     }
 
     @GetMapping
-    public ResponseEntity<?> getOrders(@RequestBody PageableRequest request
-            , @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+    public ResponseEntity<?> getOrders(@RequestParam(name = "id", required = false) String id,
+            @RequestParam(name = "start", required = false) String start,
+            @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException, WrongArgumentsException {
+
+        if(!StringUtils.isEmpty(id))
+            return found(ordersService.getOrder(
+                    id, getAuthDataByToken(token).getUserId()));
 
         return found(ordersService.getOrders(
-                getAuthDataByToken(token).getUserId(), request));
-    }
-
-    @GetMapping
-    @RequestMapping(path = "{id}")
-    public ResponseEntity<?> getOrder(@PathVariable("id") String id,
-                                      @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException, WrongArgumentsException {
-
-        if(!id.matches("^[\\d+]$"))
-            throw new WrongArgumentsException();
-
-        return found(ordersService.getOrder(
-                Integer.parseInt(id),
-                getAuthDataByToken(token).getUserId()));
+                getAuthDataByToken(token).getUserId(), start));
     }
 
     @PostMapping
-    public ResponseEntity<?> createOrder(@RequestBody FullOrderDTO fullOrderDTO,
-                                         @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException{
+    public ResponseEntity<?> createOrder(@RequestBody CreateOrderDTO createOrderDTO,
+                                         @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException {
 
         ordersService.createOrder(
                 getAuthDataByToken(token).getUserId(),
-                fullOrderDTO);
+                createOrderDTO);
         return created();
     }
 
     @PutMapping
     public ResponseEntity<?> updateOrder(@RequestBody UpdateOrderDTO updateOrderDTO,
-                                         @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException{
+                                         @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException {
 
         ordersService.updateOrder(
                 getAuthDataByToken(token).getUserId(),
@@ -75,12 +70,11 @@ public class RESTOrdersController extends RestControllerWithAuthorization<UserAu
     }
 
     @PutMapping("/sn")
-    public ResponseEntity<?> updateOrderSocialNetwork(@RequestBody UpdateSocialNetworkDTO updateSocialNetworkDTO,
-                                                      @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException{
+    public ResponseEntity<?> updateOrderSocialNetwork(@RequestBody SocialNetworkDTO socialNetworkDTO,
+                                                      @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException, NotExistException {
 
-        ordersService.updateSocialNetwork(updateSocialNetworkDTO.getOrderId(),
-                updateSocialNetworkDTO.getSocialNetwork(),
+        ordersService.updateSocialNetwork(socialNetworkDTO,
                 getAuthDataByToken(token).getUserId());
 
         return accepted();

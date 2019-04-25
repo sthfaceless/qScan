@@ -11,6 +11,8 @@ import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author danil
@@ -29,10 +31,10 @@ public class DefaultExceptionHandler extends AbstractRestController{
 
     @ExceptionHandler(InvalidAuthenticationException.class)
     public ResponseEntity<?> invalidAuthenticationException(
-            final HttpServletRequest request,
             final HttpServletResponse response){
 
-        Cookie[] cookies = request.getCookies();
+        List<Cookie> cookies = Arrays.asList(new Cookie("auth_token", ""),
+                new Cookie("expired_token", ""));
         for(Cookie cookie : cookies) {
             cookie.setMaxAge(0);
             response.addCookie(cookie);
@@ -41,7 +43,7 @@ public class DefaultExceptionHandler extends AbstractRestController{
         return new ResponseEntity<>(HttpStatus.NON_AUTHORITATIVE_INFORMATION);
     }
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler({NotFoundException.class, NotExistException.class})
     public ResponseEntity<?> notFoundException(){
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

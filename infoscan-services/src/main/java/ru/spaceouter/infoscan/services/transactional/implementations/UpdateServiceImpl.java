@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.model.ActivateCustomDAO;
 import ru.spaceouter.infoscan.model.AuthSpringDAO;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
-import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
+import ru.spaceouter.infoscan.model.ProxyDAO;
 import ru.spaceouter.infoscan.services.TokenService;
 import ru.spaceouter.infoscan.services.transactional.EmailService;
 import ru.spaceouter.infoscan.services.transactional.UpdateService;
@@ -54,7 +54,7 @@ public class UpdateServiceImpl implements UpdateService {
         if(!bCryptPasswordEncoder.matches(pass, authSpringDAO.getPasswordByUser(user)))
             return false;
 
-        authSpringDAO.updatePassword(pass, user);
+        authSpringDAO.updatePassword(bCryptPasswordEncoder.encode(newPass), user);
         return true;
     }
 }

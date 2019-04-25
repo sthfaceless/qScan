@@ -3,6 +3,7 @@ package ru.spaceouter.infoscan.rest.services;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
+import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
@@ -25,25 +26,24 @@ public class RESTCoinsController extends RestControllerWithAuthorization<UserAut
     }
 
     @GetMapping
-    public ResponseEntity<?> getCoins(@CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+    public ResponseEntity<?> getCoins(@CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException {
 
         return found(coinsService.getCoinsSize(
                 getAuthDataByToken(token).getUserId()));
     }
 
-    @GetMapping
-    @RequestMapping(path = "/history")
-    public ResponseEntity<?> getPaymentHistory(@CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+    @GetMapping(path = "/history")
+    public ResponseEntity<?> getPaymentHistory(@CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException {
 
         return found(coinsService.getPaymentsHistory(
                 getAuthDataByToken(token).getUserId()));
     }
 
     @PostMapping
-    public ResponseEntity<?> createPaymentRequest(@CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+    public ResponseEntity<?> createPaymentRequest(@CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException {
 
         coinsService.requestPayment(
                 getAuthDataByToken(token).getUserId());

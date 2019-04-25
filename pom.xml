@@ -24,6 +24,7 @@
         <module>infoscan-view</module>
         <module>infoscan-master</module>
         <module>infoscan-exceptions</module>
+        <module>infoscan-validation</module>
     </modules>
 
     <properties>

@@ -1,10 +1,8 @@
 package ru.spaceouter.infoscan.services.transactional;
 
-import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.orders.SocialNetworkDTO;
-import ru.spaceouter.infoscan.dto.orders.UpdateOrderDTO;
-import ru.spaceouter.infoscan.dto.view.PageableRequest;
-import ru.spaceouter.infoscan.dto.view.ViewOrderDTO;
+import ru.spaceouter.infoscan.dto.view.orders.*;
+import ru.spaceouter.infoscan.exceptions.NotExistException;
+import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 
 import java.util.List;
 
@@ -14,14 +12,14 @@ import java.util.List;
  */
 public interface OrdersService {
 
-    List<ViewOrderDTO> getOrders(long userId, PageableRequest request);
+    List<ViewOrderDTO> getOrders(long userId, String start) throws WrongArgumentsException;
 
-    FullOrderDTO getOrder(long orderId, long userId);
+    FullOrderDTO getOrder(String orderId, long userId) throws WrongArgumentsException;
 
-    void createOrder(long userId, FullOrderDTO fullOrderDTO);
+    void createOrder(long userId, CreateOrderDTO createOrderDTO);
 
     void updateOrder(long userId, UpdateOrderDTO update);
 
-    void updateSocialNetwork(long orderId, SocialNetworkDTO socialNetworkDTO, long userId);
+    void updateSocialNetwork(SocialNetworkDTO socialNetworkDTO, long userId) throws NotExistException;
 
 }

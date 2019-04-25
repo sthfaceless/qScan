@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.view.CreateQuestionDTO;
+import ru.spaceouter.infoscan.dto.view.support.CreateQuestionDTO;
 import ru.spaceouter.infoscan.model.SupportSpringDAO;
 import ru.spaceouter.infoscan.model.entities.support.SupportQuestion;
-import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
+import ru.spaceouter.infoscan.model.ProxyDAO;
 import ru.spaceouter.infoscan.services.transactional.SupportService;
 
 /**

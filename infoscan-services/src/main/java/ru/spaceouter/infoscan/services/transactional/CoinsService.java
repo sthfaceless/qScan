@@ -1,6 +1,7 @@
 package ru.spaceouter.infoscan.services.transactional;
 
-import ru.spaceouter.infoscan.dto.coins.PaymentDTO;
+import ru.spaceouter.infoscan.dto.view.coins.CoinsDTO;
+import ru.spaceouter.infoscan.dto.view.coins.PaymentDTO;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
  */
 public interface CoinsService {
 
-    long getCoinsSize(long userId);
+    CoinsDTO getCoinsSize(long userId);
 
     List<PaymentDTO> getPaymentsHistory(long userId);
 

@@ -11,12 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
 import ru.spaceouter.infoscan.dto.model.AuthModelDTO;
-import ru.spaceouter.infoscan.dto.view.AuthCredentialsDTO;
-import ru.spaceouter.infoscan.dto.view.AuthTokenDTO;
+import ru.spaceouter.infoscan.dto.view.auth.AuthCredentialsDTO;
+import ru.spaceouter.infoscan.dto.view.auth.AuthTokenDTO;
 import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.model.AuthSpringDAO;
-import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.services.TokenService;
 import ru.spaceouter.infoscan.services.listeners.AuthListener;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
@@ -49,41 +48,38 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
     @Override
     @Cacheable(cacheNames = "authentications", key = "#token")
     @Transactional(propagation = Propagation.NOT_SUPPORTED)
-    public UserAuthDTO getAuthUser(String token) throws UnauthorizedException{
-
-        if(StringUtils.isEmpty(token))
-            throw new UnauthorizedException();
+    public UserAuthDTO getAuthUser(String token) throws UnauthorizedException, InvalidAuthenticationException {
 
         return getUserFromDatabase(token);
     }
 
     @CachePut(cacheNames = "authentications", key = "#token")
     @Transactional(readOnly = true)
-    public UserAuthDTO getUserFromDatabase(String token) throws UnauthorizedException{
+    public UserAuthDTO getUserFromDatabase(String token) throws UnauthorizedException, InvalidAuthenticationException {
 
-        AuthEntity authEntity = authSpringDAO.findByToken(token);
+        UserAuthDTO userAuthDTO = authSpringDAO.getAuthUserByToken(token);
 
-        if(authEntity == null)
-            throw new UnauthorizedException();
+        if(userAuthDTO == null) {
+            throw new InvalidAuthenticationException();
+        }
 
-        return new UserAuthDTO(authEntity.getAuthId(),
-                authEntity.getUsername());
+        return userAuthDTO;
     }
 
     @Override
     public UserAuthDTO authWithCredentials(AuthCredentialsDTO authCredentialsDTO,
                                            HttpServletResponse response) throws InvalidAuthenticationException {
 
-        AuthModelDTO authModelDTO = authSpringDAO.findByUsername(authCredentialsDTO.getLogin());
+        AuthModelDTO authModelDTO = authSpringDAO.findByUsername(authCredentialsDTO.getUsername());
         if(authModelDTO == null)
             throw new InvalidAuthenticationException();
 
         if(!bCryptPasswordEncoder.matches(authCredentialsDTO.getPassword(), authModelDTO.getPassword()))
             throw new InvalidAuthenticationException();
 
-        simpleAuth(authModelDTO.getUserId(), response);
+        simpleAuth(authModelDTO.getAuthId(), response);
 
-        return new UserAuthDTO(authModelDTO.getUserId(), authModelDTO.getLogin());
+        return new UserAuthDTO(authModelDTO.getUserId(), authModelDTO.getUsername());
     }
 
     @Override
@@ -98,20 +94,19 @@ public class AuthServiceImpl implements AuthService<UserAuthDTO> {
         if(authModel == null)
             throw new InvalidAuthenticationException();
 
-        simpleAuth(authModel.getUserId(), response);
+        simpleAuth(authModel.getAuthId(), response);
 
-        return new UserAuthDTO(authModel.getUserId(), authModel.getLogin());
+        return new UserAuthDTO(authModel.getUserId(), authModel.getUsername());
     }
 
-    private void simpleAuth(long userId, HttpServletResponse response){
+    private void simpleAuth(long authId, HttpServletResponse response){
 
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DATE, 30);
         Date expiredDate = new Date(calendar.getTimeInMillis());
 
         String securedToken = tokenService.nextToken();
-
-        authSpringDAO.updateByIdTokenAndExpiredDate(userId, securedToken, expiredDate);
+        authSpringDAO.updateByIdTokenAndExpiredDate(authId, securedToken, expiredDate);
 
         authListener.authSuccess(securedToken, expiredDate,response);
 

@@ -36,12 +36,13 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper.setSubject("InfoScan - Activation account info");
             mimeMessageHelper.setText("<html><body>" +
                     "<h3>To activate account follow next link:</h3>" +
-                    "<a href='"+domain+"/api/user/reg/"+activateString+"'>Click</a>" +
+                    "<a target=\""+domain+"/api/user/reg/"+activateString+"\">Click</a>" +
                     "</body></html>", true);
 
 
             javaMailSender.send(message);
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
 
@@ -60,12 +61,13 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper.setSubject("InfoScan - Confirm email info");
             mimeMessageHelper.setText("<html><body>" +
                     "<h3>To confirm new email follow link below::</h3>" +
-                    "<a href='"+domain+"/api/update/email/"+activateString+"'>Click</a>" +
+                    "<a target=\""+domain+"/api/update/email/"+activateString+"\">Click</a>" +
                     "</body></html>", true);
 
 
             javaMailSender.send(message);
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
 
@@ -84,12 +86,13 @@ public class EmailServiceImpl implements EmailService {
             mimeMessageHelper.setSubject("InfoScan - Restore password info");
             mimeMessageHelper.setText("<html><body>" +
                     "<h3>To restore your password follow link below:</h3>" +
-                    "<a href='"+domain+"/api/user/restore/"+activateString+"'>Click</a>" +
+                    "<a target=\""+domain+"/api/user/restore/"+activateString+"\">Click</a>" +
                     "</body></html>", true);
 
 
             javaMailSender.send(message);
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
 

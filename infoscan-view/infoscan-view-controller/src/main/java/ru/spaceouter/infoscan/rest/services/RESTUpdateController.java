@@ -1,14 +1,20 @@
 package ru.spaceouter.infoscan.rest.services;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.spaceouter.infoscan.dto.auth.UserAuthDTO;
-import ru.spaceouter.infoscan.dto.view.UpdateEmailDTO;
-import ru.spaceouter.infoscan.dto.view.UpdatePasswordDTO;
+import ru.spaceouter.infoscan.dto.view.ConfirmDTO;
+import ru.spaceouter.infoscan.dto.view.EmailDTO;
+import ru.spaceouter.infoscan.dto.view.update.UpdatePasswordDTO;
+import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
+import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 import ru.spaceouter.infoscan.rest.RestControllerWithAuthorization;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
 import ru.spaceouter.infoscan.services.transactional.UpdateService;
+
+import javax.validation.Valid;
 
 /**
  * @author danil
@@ -26,31 +32,40 @@ public class RESTUpdateController extends RestControllerWithAuthorization<UserAu
         this.updateService = updateService;
     }
 
-    @PostMapping
-    @RequestMapping(path = "/email")
-    public ResponseEntity<?> updateEmail(@RequestBody UpdateEmailDTO updateEmailDTO,
-                                         @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException {
+    @PostMapping(path = "/email")
+    public ResponseEntity<?> updateEmail(@Valid@RequestBody EmailDTO emailDTO,
+                                         BindingResult bindingResult,
+                                         @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException, WrongArgumentsException {
+
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
 
         updateService.updateEmail(
                 getAuthDataByToken(token).getUserId(),
-                updateEmailDTO.getEmail());
+                emailDTO.getEmail());
         return created();
     }
 
-    @PutMapping
-    @RequestMapping(path = "/email/{uuid}")
-    public ResponseEntity<?> updateEmailConfirm(@PathVariable("uuid") String uuid){
+    @PutMapping(path = "/email")
+    public ResponseEntity<?> updateEmailConfirm(@Valid @RequestBody ConfirmDTO confirmDTO,
+                                                BindingResult bindingResult) throws WrongArgumentsException {
 
-        updateService.confirmEmailUpdating(uuid);
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
+
+        updateService.confirmEmailUpdating(confirmDTO.getUuid());
         return accepted();
     }
 
-    @PutMapping
-    @RequestMapping(path = "/pass")
-    public ResponseEntity<?> updatePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO,
-                                            @CookieValue(name = "token", required = false) String token)
-            throws UnauthorizedException{
+    @PutMapping(path = "/pass")
+    public ResponseEntity<?> updatePassword(@Valid @RequestBody UpdatePasswordDTO updatePasswordDTO,
+                                            BindingResult bindingResult,
+                                            @CookieValue(name = "auth_token", required = false) String token)
+            throws UnauthorizedException, InvalidAuthenticationException, WrongArgumentsException {
+
+        if(bindingResult.hasErrors())
+            throw new WrongArgumentsException();
 
         updateService.updatePassword(
                 getAuthDataByToken(token).getUserId(),

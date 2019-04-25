@@ -13,20 +13,27 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @Table(name = "activations")
-@org.hibernate.annotations.NamedQueries({
-        @org.hibernate.annotations.NamedQuery(name = "activateAccount",
-                query = "update AuthEntity set active = true where authId in " +
-                        "(select ae.authId from ActivationEntity a left join a.auth ae where a.activateAccount=:str)"),
-        @org.hibernate.annotations.NamedQuery(name = "confirmPassword",
-                query = "update AuthEntity set password = :pass where authId in " +
-                        "(select ae.authId from ActivationEntity a left join a.auth ae where a.confirmRestore=:str)"),
-        @org.hibernate.annotations.NamedQuery(name = "confirmEmail",
-                query = "update AuthEntity set active = true where authId in " +
-                        "(select ae.authId from ActivationEntity a left join a.auth ae where a.confirmEmail=:str)"),
-        @org.hibernate.annotations.NamedQuery(name = "setConfirmPasswordToken",
-        query = "update ActivationEntity set confirmRestore = :uuid where auth = :auth"),
-        @org.hibernate.annotations.NamedQuery(name = "setConfirmEmailToken",
-        query = "update ActivationEntity set confirmEmail = :uuid, tempEmail = :email where auth = :auth")
+@NamedQueries({
+        @NamedQuery(name = "setConfirmPasswordToken",
+                query = "update ActivationEntity set confirmRestore = :uuid where auth = :auth"),
+        @NamedQuery(name = "setConfirmEmailToken",
+                query = "update ActivationEntity set confirmEmail = :uuid, tempEmail = :email where auth = :auth"),
+})
+@NamedNativeQueries({
+        @NamedNativeQuery(name = "activateAccount",
+                query = "update users_credentials uc left join activations a on uc.auth_id = a.auth_id " +
+                        "set uc.active = true " +
+                        "where a.activate_account = :str"),
+        @NamedNativeQuery(name = "confirmEmail",
+                query = "update users u " +
+                        "left join users_credentials uc on uc.user_id = u.user_id " +
+                        "left join activations a on uc.auth_id = a.auth_id " +
+                        "set u.email = a.temp_email " +
+                        "where a.confirm_email = :str"),
+        @NamedNativeQuery(name = "confirmPassword",
+                query = "update users_credentials uc left join activations a on uc.auth_id = a.auth_id " +
+                        "set uc.password = :pass " +
+                        "where a.confirm_restore = :str")
 })
 public class ActivationEntity {
 
@@ -46,9 +53,6 @@ public class ActivationEntity {
 
     @Column(name = "confirm_restore")
     private String confirmRestore;
-
-    @Column(name = "temp_password")
-    private String tempPassword;
 
     @Column(name = "confirm_email")
     private String confirmEmail;

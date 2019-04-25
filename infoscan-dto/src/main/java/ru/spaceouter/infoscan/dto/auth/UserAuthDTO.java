@@ -12,6 +12,6 @@ import lombok.Getter;
 public class UserAuthDTO {
 
     private final long userId;
-    private final String login;
+    private final String username;
 
 }

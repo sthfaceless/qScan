@@ -14,11 +14,11 @@ import java.util.Date;
 @Data
 @Table(name = "users_credentials")
 @NoArgsConstructor
-@org.hibernate.annotations.NamedQueries({
-        @org.hibernate.annotations.NamedQuery(name = "getAuthByEmail",
-                query = "select authId from AuthEntity where email = :email"),
-        @org.hibernate.annotations.NamedQuery(name = "getAuthByUserId",
-        query = "select authId frpm AuthEntity where user = :user")
+@NamedQueries({
+        @NamedQuery(name = "getAuthByEmail",
+                query = "select a.authId from AuthEntity a left join a.user u where u.email = :email"),
+        @NamedQuery(name = "getAuthByUserId",
+                query = "select authId from AuthEntity where user = :user")
 })
 public class AuthEntity {
 
@@ -55,10 +55,11 @@ public class AuthEntity {
     @OneToOne(optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private UserEntity user;
 
-    public AuthEntity(String username, String password, String token, boolean active, RoleEntity role) {
+    public AuthEntity(String username, String password, String token, Date expiredDate, boolean active, RoleEntity role) {
         this.username = username;
         this.password = password;
         this.token = token;
+        this.expiredDate = expiredDate;
         this.active = active;
         this.role = role;
     }

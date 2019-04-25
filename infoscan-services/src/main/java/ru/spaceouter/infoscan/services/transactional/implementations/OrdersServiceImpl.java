@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import ru.spaceouter.infoscan.dto.orders.FullOrderDTO;
-import ru.spaceouter.infoscan.dto.orders.OrderField;
-import ru.spaceouter.infoscan.dto.orders.SocialNetworkDTO;
-import ru.spaceouter.infoscan.dto.orders.UpdateOrderDTO;
-import ru.spaceouter.infoscan.dto.view.PageableRequest;
-import ru.spaceouter.infoscan.dto.view.ViewOrderDTO;
+import ru.spaceouter.infoscan.dto.view.orders.*;
+import ru.spaceouter.infoscan.exceptions.NotExistException;
+import ru.spaceouter.infoscan.exceptions.WrongArgumentsException;
 import ru.spaceouter.infoscan.model.OrdersCustomDAO;
-import ru.spaceouter.infoscan.model.hibernate.ProxyDAO;
+import ru.spaceouter.infoscan.model.ProxyDAO;
+import ru.spaceouter.infoscan.services.ParametersValidator;
 import ru.spaceouter.infoscan.services.listeners.OrdersListener;
 import ru.spaceouter.infoscan.services.transactional.OrdersService;
 
@@ -30,36 +28,48 @@ public class OrdersServiceImpl implements OrdersService {
 
     private final OrdersListener ordersListener;
 
+    private final ParametersValidator parametersValidator;
+
     private final int maxOrdersSize;
 
     public OrdersServiceImpl(OrdersCustomDAO ordersCustomDAO,
                              ProxyDAO proxyDAO,
                              OrdersListener ordersListener,
+                             ParametersValidator parametersValidator,
                              @Value("${orders.view.size}") Integer maxOrdersSize) {
         this.ordersCustomDAO = ordersCustomDAO;
         this.proxyDAO = proxyDAO;
         this.ordersListener = ordersListener;
+        this.parametersValidator = parametersValidator;
         this.maxOrdersSize = maxOrdersSize;
     }
 
     @Transactional(readOnly = true)
     @Override
-    public List<ViewOrderDTO> getOrders(long userId, PageableRequest request) {
+    public List<ViewOrderDTO> getOrders(long userId, String start) throws WrongArgumentsException {
 
-        return ordersCustomDAO.getOrdersByUser(userId, request.getStart(), maxOrdersSize);
+        int startValue = 0;
+        if(start != null && parametersValidator.validateNumber(start)) {
+            startValue = Integer.parseInt(start);
+        }
+
+        return ordersCustomDAO.getOrdersByUser(userId, startValue, maxOrdersSize);
     }
 
     @Transactional(readOnly = true)
     @Override
-    public FullOrderDTO getOrder(long orderId, long userId) {
+    public FullOrderDTO getOrder(String orderId, long userId) throws WrongArgumentsException {
 
-        return ordersCustomDAO.getFullOrder(orderId, userId);
+        if(!parametersValidator.validateNumber(orderId))
+            throw new WrongArgumentsException();
+
+        return ordersCustomDAO.getFullOrder(Long.parseLong(orderId), userId);
     }
 
     @Override
-    public void createOrder(long userId, FullOrderDTO fullOrderDTO) {
+    public void createOrder(long userId, CreateOrderDTO createOrderDTO) {
 
-        long orderId = ordersCustomDAO.saveOrder(userId, fullOrderDTO);
+        long orderId = ordersCustomDAO.saveOrder(userId, createOrderDTO);
         ordersListener.ordersCreated(orderId);
     }
 
@@ -76,9 +86,9 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public void updateSocialNetwork(long orderId, SocialNetworkDTO socialNetworkDTO, long userId) {
+    public void updateSocialNetwork(SocialNetworkDTO socialNetworkDTO, long userId) throws NotExistException {
 
-        ordersCustomDAO.updateOrderSocialNetworks(orderId, socialNetworkDTO, userId);
+        long orderId = ordersCustomDAO.updateOrderSocialNetworks(socialNetworkDTO, userId);
         ordersListener.orderUpdated(orderId, OrderField.SOCIAL_NETWORKS);
     }
 }

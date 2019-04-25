@@ -1,5 +1,7 @@
 package ru.spaceouter.infoscan.rest;
 
+import org.springframework.util.StringUtils;
+import ru.spaceouter.infoscan.exceptions.InvalidAuthenticationException;
 import ru.spaceouter.infoscan.exceptions.UnauthorizedException;
 import ru.spaceouter.infoscan.services.transactional.AuthService;
 
@@ -15,7 +17,10 @@ public class RestControllerWithAuthorization<T> extends AbstractRestController {
         this.authService = authService;
     }
 
-    protected T getAuthDataByToken(String token) throws UnauthorizedException{
+    protected T getAuthDataByToken(String token) throws UnauthorizedException, InvalidAuthenticationException {
+
+        if(StringUtils.isEmpty(token.trim()))
+            throw new UnauthorizedException();
 
         return authService.getAuthUser(token);
     }

@@ -1,10 +1,14 @@
 package ru.spaceouter.infoscan.model.entities.user;
 
+import com.sun.naming.internal.FactoryEnumeration;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.spaceouter.infoscan.model.entities.coins.CoinsEntity;
+import ru.spaceouter.infoscan.model.entities.coins.CoinsPaymentEntity;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author danil
@@ -32,6 +36,12 @@ public class UserEntity {
 
     @OneToOne(mappedBy = "user",cascade = CascadeType.ALL,optional = false, fetch = FetchType.LAZY, orphanRemoval = true)
     private AuthEntity auth;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, optional = false, orphanRemoval = true, fetch = FetchType.LAZY)
+    private CoinsEntity coins;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, orphanRemoval = true, cascade = CascadeType.ALL)
+    private List<CoinsPaymentEntity> payments;
 
     public UserEntity(String username, String email, Date registrationDate) {
         this.username = username;

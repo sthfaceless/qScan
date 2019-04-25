@@ -6,19 +6,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import ru.spaceouter.infoscan.dto.auth.Role;
-import ru.spaceouter.infoscan.dto.view.CreateUserDTO;
-import ru.spaceouter.infoscan.dto.view.RestoreDTO;
-import ru.spaceouter.infoscan.dto.view.StartRestoreDTO;
+import ru.spaceouter.infoscan.dto.view.user.CreateUserDTO;
+import ru.spaceouter.infoscan.dto.view.auth.RestoreDTO;
 import ru.spaceouter.infoscan.model.ActivateCustomDAO;
 import ru.spaceouter.infoscan.model.UserSpringDAO;
+import ru.spaceouter.infoscan.model.entities.coins.CoinsEntity;
 import ru.spaceouter.infoscan.model.entities.user.ActivationEntity;
 import ru.spaceouter.infoscan.model.entities.user.AuthEntity;
 import ru.spaceouter.infoscan.model.entities.user.RoleEntity;
 import ru.spaceouter.infoscan.model.entities.user.UserEntity;
+import ru.spaceouter.infoscan.services.ParametersValidator;
 import ru.spaceouter.infoscan.services.TokenService;
 import ru.spaceouter.infoscan.services.transactional.EmailService;
 import ru.spaceouter.infoscan.services.transactional.UserService;
 
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -37,21 +39,27 @@ public class UserServiceImpl implements UserService {
 
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final TokenService tokenService;
+    private final ParametersValidator parametersValidator;
 
     @Override
     public void createUser(CreateUserDTO createUserDTO){
 
         final UserEntity userEntity = new UserEntity(
-                createUserDTO.getLogin(),
+                createUserDTO.getUsername(),
                 createUserDTO.getEmail(),
                 new Date());
 
         final RoleEntity roleEntity = new RoleEntity(Role.USER);
 
+        Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.DATE, 30);
+        Date expiredDate = new Date(calendar.getTimeInMillis());
+
         final AuthEntity authEntity = new AuthEntity(
-                createUserDTO.getLogin(),
+                createUserDTO.getUsername(),
                 bCryptPasswordEncoder.encode(createUserDTO.getPassword()),
                 tokenService.nextToken(),
+                expiredDate,
                 false,
                 roleEntity
         );
@@ -64,6 +72,9 @@ public class UserServiceImpl implements UserService {
         roleEntity.setAuth(authEntity);
         userEntity.setAuth(authEntity);
 
+        CoinsEntity coinsEntity = new CoinsEntity(0, userEntity);
+        userEntity.setCoins(coinsEntity);
+
         userSpringDAO.save(userEntity);
 
         emailService.sendActivateAccountMessage(createUserDTO.getEmail(), activation.getActivateAccount());
@@ -75,17 +86,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void restore(StartRestoreDTO startRestoreDTO){
+    public void restore(String email){
 
         String confirmRestore = tokenService.nextToken();
-        activateCustomDAO.setConfirmPasswordToken(confirmRestore, startRestoreDTO.getEmail());
+        activateCustomDAO.setConfirmPasswordToken(confirmRestore, email);
 
-        emailService.sendConfirmPasswordRestoreMessage(startRestoreDTO.getEmail(), confirmRestore);
+        emailService.sendConfirmPasswordRestoreMessage(email, confirmRestore);
 
     }
 
     @Override
-    public boolean confirmRestore(RestoreDTO restoreDTO) {
+    public boolean confirmRestore(RestoreDTO restoreDTO){
+
        return activateCustomDAO.confirmPassword(restoreDTO.getUuid(),
                bCryptPasswordEncoder.encode(restoreDTO.getPassword()));
     }
