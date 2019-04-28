@@ -1,0 +1,12 @@
+.change-email{
+    padding: 10px;
+}
+.change-email h4{
+    margin: 0 0 10px 0;
+    text-align: center;
+}
+.change-email .submit-wrapper{
+    margin-top: 10px;
+    display: flex;
+    justify-content: right;
+}

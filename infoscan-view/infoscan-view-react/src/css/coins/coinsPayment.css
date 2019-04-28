@@ -1,0 +1,93 @@
+.coins-payment{
+    margin: 50px 0;
+    min-height: 70vh;
+}
+.coins-payment .header{
+    text-align: center;
+}
+.coins-payment .payment-systems{
+    margin: 15px 0;
+}
+.coins-payment .payment-systems .wrapper{
+    display: flex;
+    align-items: center;
+    flex-flow: wrap;
+    margin-top: 20px;
+}
+.coins-payment .payment-systems .head{
+    font-size: 20px;
+}
+.coins-payment .payment-systems .payment-system{
+    padding-bottom: 10px;
+    margin-right: 20px;
+}
+.coins-payment .payment-systems .active{
+    border-bottom: 3px solid #2196F3;
+}
+.coins-payment .payment-systems .payment-system .system-img{
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 20px 5px 20px;
+    border-radius: 5px;
+    box-shadow: lightgray 0 0 5px 1px;
+}
+.coins-payment .payment-systems .payment-system .system-img:hover{
+    transform: translateY(-3px);
+}
+.coins-payment .payment-systems .payment-system .system-img img{
+    height: 40px;
+}
+.coins-payment .content{
+    display: flex;
+    flex-flow: column;
+    margin-top: 30px;
+    border: 1px solid lightgray;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: lightgray 0 0 5px 1px;
+}
+.coins-payment .content .head{
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.coins-payment .content input{
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid lightgray;
+    margin: 5px 0;
+}
+.coins-payment .content input:focus{
+    box-shadow: lightblue 0 0 5px 1px !important;
+    border: 1px solid lightgray !important;
+}
+.coins-payment .content .qiwi-content{
+    margin: 5px 0;
+}
+.coins-payment .content .qiwi-content .qiwi-elem{
+    margin-bottom: 20px;
+    display: flex;
+    flex-flow: column;
+}
+.coins-payment .content .qiwi-content .qiwi-elem .num{
+    border-radius: 100%;
+    padding: 5px 10px;
+    margin-right: 10px;
+}
+.coins-payment .content .qiwi-content .phone-number input{
+    width: 200px;
+    margin-left: 35px;
+}
+.coins-payment .content .qiwi-content .amount input{
+    width: 100px;
+    margin-left: 35px;
+}
+.coins-payment .content .pay-wrapper{
+    display: flex;
+}
+.coins-payment .content .pay-wrapper .pay-btn{
+    margin-left: auto;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}

@@ -1,0 +1,15 @@
+nav .header-links .login{
+    margin-right: 0;
+    margin-left: 25px;
+}
+nav .links-delimiter{
+    margin: 0 10px;
+}
+nav .sidenav-trigger{
+    font-style: normal !important;
+    text-decoration: none !important;
+    transform: rotate(78deg) !important;
+}
+#slide-out li a{
+    color: #ffffff !important;
+}

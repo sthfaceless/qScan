@@ -1,0 +1,126 @@
+.create-order{
+    margin: 50px 0;
+    min-height: 70vh;
+}
+.create-order .header{
+    text-align: center;
+    font-size: 30px;
+}
+.create-order .content{
+    margin: 30px 0 !important;
+}
+.create-order .left{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.create-order .left .left-header{
+    font-size: 25px;
+}
+.create-order .left .user-img{
+    position: relative;
+    margin: 30px 0;
+    cursor: pointer;
+    box-shadow: lightgray 0 0 5px 1px;
+    border-radius: 5px;
+}
+.create-order .left .user-img img{
+    width: 200px;
+    height: 200px;
+}
+.create-order .left .user-img .over{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    opacity: 0.2;
+}
+.create-order .left .user-img .over img{
+    width: 60px;
+    height: 60px;
+}
+.create-order .left .choose-social-network{
+    padding: 7px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: lightgray 0 0 5px 1px;
+    cursor: pointer;
+}
+.create-order .left .choose-social-network:hover{
+    background-color: #f3f3f3;
+}
+.create-order .left .social-networks{
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-flow: column;
+}
+.create-order .left .social-networks .head{
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.create-order .left .social-networks .empty{
+    text-align: center;
+    margin: 20px auto;
+}
+.create-order .left .social-networks .element{
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 10px 0;
+    box-shadow: lightgray 0 0 5px 1px;
+    border-radius: 5px;
+}
+.create-order .left .social-networks .element .sn-logo img{
+    width: 40px;
+    height: 40px;
+}
+.create-order .left .social-networks .element .sn-name{
+    font-size: 16px;
+    margin-left: 20px;
+}
+.create-order .right .content-field{
+    margin: 10px 0;
+    width: 100%;
+    border: 1px solid lightgray;
+    box-shadow: lightgray 0 0 5px 1px;
+    border-radius: 5px;
+    padding: 3px 10px;
+    height: 30px;
+}
+.create-order .right .content-field:focus{
+    box-shadow: #94b0d3 0 0 5px 1px !important;
+    border: 1px solid lightgray !important;
+}
+.create-order .right .label{
+    margin: 15px 0;
+}
+.create-order .right .gender{
+    padding: 5px 10px;
+    width: 100%;
+}
+.create-order .right .gender label{
+    margin: 0 10px;
+}
+.create-order .right .gender  .name{
+    font-size: 16px;
+}
+#order-datepicker{
+    color: darkgray;
+}
+.create-order .create {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+.create-order .create .create-btn{
+    padding: 7px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: lightgray 0 0 5px 1px;
+}

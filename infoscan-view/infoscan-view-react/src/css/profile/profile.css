@@ -1,0 +1,9 @@
+.profile{
+    margin: 50px 0;
+    min-height: 70vh;
+}
+@media (max-device-width: 600px) {
+    .profile .content{
+        padding: 10px 0;
+    }
+}
