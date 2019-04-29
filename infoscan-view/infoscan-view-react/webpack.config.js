@@ -1,5 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 module.exports = {
     entry: "./src/index.js",
@@ -14,22 +16,37 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: ["style-loader", "css-loader"]
+                use: ['style-loader','css-loader']
+                // use: ExtractTextPlugin.extract(
+                //     {
+                //         fallback: 'style-loader',
+                //         use: ['css-loader']
+                //     })
             }
         ]
     },
-    resolve: { extensions: ["*", ".js", ".jsx"] },
+    resolve: {
+        alias: {
+          js : path.resolve(__dirname, 'src/js/'),
+          css : path.resolve(__dirname, 'src/css/'),
+          node_modules: path.resolve(__dirname, 'node_modules/')
+        },
+        extensions: ["*", ".js", ".jsx"]
+    },
     output: {
         path: path.resolve(__dirname, "build/"),
-        publicPath: "/static/",
+        publicPath: "/resources/",
         filename: "js/bundle.js"
     },
     devServer: {
         contentBase: path.join(__dirname, "public/"),
         port: 3000,
-        publicPath: "http://localhost:3000/static/",
+        publicPath: "http://localhost:3000/resources/",
         hotOnly: true,
         historyApiFallback: true,
     },
-    plugins: [new webpack.HotModuleReplacementPlugin()]
+    plugins: [new webpack.HotModuleReplacementPlugin(),
+        // new ExtractTextPlugin({filename: 'css/styles.css'}),
+        // new OptimizeCssAssetsPlugin()
+    ]
 };

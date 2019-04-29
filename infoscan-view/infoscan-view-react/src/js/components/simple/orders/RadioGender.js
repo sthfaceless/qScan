@@ -1,6 +1,7 @@
 import React from 'react';
+import 'css/orders/radio-gender.css';
 
-class Radio extends React.Component{
+class RadioGender extends React.Component{
     render() {
         return (
             <div className={this.props.class}>
@@ -18,4 +19,4 @@ class Radio extends React.Component{
     }
 }
 
-export default Radio;
+export default RadioGender;

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/form_field.css';
+import 'css/auth/form_field.css';
 
 class FormField extends Component{
     render() {

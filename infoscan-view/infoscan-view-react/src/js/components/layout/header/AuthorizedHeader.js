@@ -1,15 +1,12 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import Navbar from "js/header/Navbar";
-import ProfileMenu from "js/header/ProfileMenu";
-import {Sidenav} from "materialize-css";
+import Navbar from "js/components/simple/header/Navbar";
+import ProfileMenu from "js/components/simple/header/ProfileMenu";
 import {connect} from "react-redux";
-import {logout} from "js/actions/authActions";
+import {logout} from "js/store/actions/authActions";
+import Sidebar from "js/components/simple/header/Sidebar";
 
 class AuthorizedHeader extends Component{
-    componentDidMount(){
-        Sidenav.init(document.getElementById('slide-out'), {});
-    }
     render() {
         return (
             <>
@@ -20,23 +17,16 @@ class AuthorizedHeader extends Component{
                     <li className="links-delimiter">|</li>
                     <ProfileMenu username={this.props.username} logout={this.props.logout}/>
                 </Navbar>
-                <ul id="slide-out" className="sidenav grey darken-3 white-text">
-                    <li>
-                        <div className="user-view">
-                            <h4>InfoScan</h4>
-                        </div>
-                    </li>
+                <Sidebar>
                     <li><Link to='/support'>Помощь</Link></li>
                     <li><Link to='/orders'>Заказы</Link></li>
                     <li><Link to='/coins'>Купить</Link></li>
-                    <li>
-                        <div className="divider"></div>
-                    </li>
-                    <li><Link to='/profile' className="profile-link">Профиль</Link></li>
+                    <li><div className="divider"></div></li>
+                    <li><Link to='/profile' className="profile-link">{this.props.username}</Link></li>
                     <li>
                         <a onClick={() => this.props.logout()} href='#' className="logout">Выход</a>
                     </li>
-                </ul>
+                </Sidebar>
             </>
         );
     }

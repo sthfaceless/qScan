@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/profile.change-password.css';
+import 'css/profile/profile.change-password.css';
 
 class ChangePassword extends Component{
 

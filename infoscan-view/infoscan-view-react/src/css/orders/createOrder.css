@@ -43,47 +43,6 @@
     width: 60px;
     height: 60px;
 }
-.create-order .left .choose-social-network{
-    padding: 7px 20px;
-    border-radius: 5px;
-    font-size: 14px;
-    box-shadow: lightgray 0 0 5px 1px;
-    cursor: pointer;
-}
-.create-order .left .choose-social-network:hover{
-    background-color: #f3f3f3;
-}
-.create-order .left .social-networks{
-    width: 100%;
-    margin: 20px 0;
-    display: flex;
-    flex-flow: column;
-}
-.create-order .left .social-networks .head{
-    font-size: 20px;
-    display: flex;
-    justify-content: space-between;
-}
-.create-order .left .social-networks .empty{
-    text-align: center;
-    margin: 20px auto;
-}
-.create-order .left .social-networks .element{
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 10px 0;
-    box-shadow: lightgray 0 0 5px 1px;
-    border-radius: 5px;
-}
-.create-order .left .social-networks .element .sn-logo img{
-    width: 40px;
-    height: 40px;
-}
-.create-order .left .social-networks .element .sn-name{
-    font-size: 16px;
-    margin-left: 20px;
-}
 .create-order .right .content-field{
     margin: 10px 0;
     width: 100%;
@@ -99,16 +58,6 @@
 }
 .create-order .right .label{
     margin: 15px 0;
-}
-.create-order .right .gender{
-    padding: 5px 10px;
-    width: 100%;
-}
-.create-order .right .gender label{
-    margin: 0 10px;
-}
-.create-order .right .gender  .name{
-    font-size: 16px;
 }
 #order-datepicker{
     color: darkgray;

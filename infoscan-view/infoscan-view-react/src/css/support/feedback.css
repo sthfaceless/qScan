@@ -1,0 +1,12 @@
+.support .back-connect .connect_suggestion{
+    font-size: 20px;
+    margin-left: 5px;
+}
+.support .back-connect .btn{
+    margin-top: 15px;
+    margin-left: 5px;
+    border-radius: 5px !important;
+}
+.support .back-connect .btn:hover{
+    transform: translateY(-1px);
+}

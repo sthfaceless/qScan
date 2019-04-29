@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/profileMenu.css';
+import 'css/header/profileMenu.css';
 import DropdownProfile from "./DropdownProfile";
 
 class ProfileMenu extends Component{

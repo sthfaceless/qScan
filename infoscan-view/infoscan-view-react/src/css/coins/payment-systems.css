@@ -1,0 +1,32 @@
+.payment-systems{
+    margin: 15px 0;
+}
+.payment-systems .wrapper{
+    display: flex;
+    align-items: center;
+    flex-flow: wrap;
+    margin-top: 20px;
+}
+.payment-systems .head{
+    font-size: 20px;
+}
+.payment-systems .payment-system{
+    padding-bottom: 10px;
+    margin-right: 20px;
+}
+.payment-systems .active{
+    border-bottom: 3px solid #2196F3;
+}
+.payment-systems .payment-system .system-img{
+    width: 100%;
+    cursor: pointer;
+    padding: 10px 20px 5px 20px;
+    border-radius: 5px;
+    box-shadow: lightgray 0 0 5px 1px;
+}
+.payment-systems .payment-system .system-img:hover{
+    transform: translateY(-3px);
+}
+.payment-systems .payment-system .system-img img{
+    height: 40px;
+}

@@ -1,0 +1,17 @@
+.support .content_list .list-item{
+    display: flex;
+    justify-content: left;
+    flex-flow: column;
+    margin-bottom: 10px;
+}
+.support .content_list .list-item span{
+    font-size: 20px;
+}
+.support .content_list .list-item a{
+    margin-left: 10px;
+    color: #757575 !important;
+}
+.support .content_list .list-item a:hover{
+    transform: translateX(5px);
+    color: #5a5a5a !important;
+}

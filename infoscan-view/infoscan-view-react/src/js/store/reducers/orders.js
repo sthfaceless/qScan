@@ -1,7 +1,4 @@
 const ordersFunctions = {
-    GET_ORDERS: (store, state) => {
-
-    }
 };
 
 export const orders = (state = {}, action) =>

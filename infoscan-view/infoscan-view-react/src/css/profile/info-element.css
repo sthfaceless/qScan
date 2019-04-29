@@ -1,0 +1,10 @@
+.information .info-card .info-element {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 20px;
+}
+.information .info-card .info-element .content{
+    margin-left: 10px;
+    font-size: 18px;
+}

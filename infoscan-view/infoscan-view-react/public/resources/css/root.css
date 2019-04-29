@@ -1,0 +1,17 @@
+@font-face {
+    font-family: '-apple-system';
+    src: url("/resources/fonts/SFUIDisplay-Bold.ttf");
+    url("/resources/fonts/SFUIDisplay-Bold.ttf")
+    font-weight: 1000;
+    font-style: normal;
+}
+@font-face {
+    font-family: '-apple-system';
+    src: url("/resources/fonts/SFUIDisplay-Medium.ttf");
+    url("/resources/fonts/SFUIDisplay-Medium.ttf")
+    font-weight: 500;
+    font-style: normal;
+}
+* {
+    font-family: -apple-system, sans-serif !important;
+}

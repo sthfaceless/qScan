@@ -24,48 +24,6 @@
     width: 150px;
     height: 150px;
 }
-.person-information .social-networks{
-    width: 100%;
-}
-.person-information .social-networks .head{
-    font-size: 20px;
-    margin-top: 10px;
-}
-.person-information .social-networks .sn-element{
-    padding: 10px;
-    border-radius: 5px;
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    box-shadow: lightgray 0 0 5px 1px;
-}
-.person-information .sn-element .sn-logo img{
-    width: 40px;
-    height: 40px;
-}
-.person-information .sn-element .sn-name{
-    margin-left: 20px;
-}
 .person-information .right-column{
     margin-left: 10px;
-}
-.person-information .info-block{
-    margin: 20px 0;
-    box-shadow: lightgray 0 0 5px 1px;
-    border-radius: 5px;
-}
-.person-information .info-block .info-name{
-    padding: 5px 10px;
-    border-radius: 5px 5px 0 0;
-}
-.person-information .info-content{
-    padding: 10px;
-    display: flex;
-    flex-flow: wrap;
-}
-.person-information .info-content .may-value{
-    display: flex;
-    padding: 5px 10px;
-    border-radius: 5px;
-    margin: 3px;
 }

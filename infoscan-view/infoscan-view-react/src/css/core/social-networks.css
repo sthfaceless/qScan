@@ -1,0 +1,25 @@
+.choose-social-network{
+    padding: 7px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    box-shadow: lightgray 0 0 5px 1px;
+    cursor: pointer;
+}
+.choose-social-network:hover{
+    background-color: #f3f3f3;
+}
+.social-networks{
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-flow: column;
+}
+.social-networks .head{
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.social-networks .empty{
+    text-align: center;
+    margin: 20px auto;
+}

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/profile.change-email.css';
+import 'css/profile/profile.change-email.css';
 
 class ChangeEmail extends Component{
 

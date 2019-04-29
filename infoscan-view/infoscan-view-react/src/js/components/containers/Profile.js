@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
-import Information from "js/profile/Information";
-import ChangePassword from "js/profile/ChangePassword";
-import ChangeEmail from "js/profile/ChangeEmail";
-import 'css/profile.css';
-import Sidebar from "js/profile/Sidebar";
+import Information from "js/components/simple/profile/Information";
+import ChangePassword from "js/components/simple/profile/ChangePassword";
+import ChangeEmail from "js/components/simple/profile/ChangeEmail";
+import 'css/profile/profile.css';
+import Sidebar from "js/components/simple/profile/Sidebar";
+import {connect} from "react-redux";
 
 class Profile extends Component {
     constructor(props) {
@@ -12,11 +13,10 @@ class Profile extends Component {
             window: 0
         }
     }
-
     sidebarElements = [
         {
             text: 'Информация',
-            component: <Information/>
+            component: <Information info={this.props.profile.info}/>
         },
         {
             text: 'Смена пароля',
@@ -50,4 +50,8 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+const mapStateToProps = (state) => ({
+   profile: state.profile
+});
+
+export default connect(mapStateToProps) (Profile);

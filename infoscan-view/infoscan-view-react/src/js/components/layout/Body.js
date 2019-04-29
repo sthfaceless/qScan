@@ -1,15 +1,15 @@
 import React, {Component} from 'react';
-import Main from "js/containers/Main";
+import Main from "js/components/containers/Main";
 import {Route, Switch} from "react-router-dom";
-import NotFound from "js/errors/NotFound";
-import OrdersContainer from "js/containers/orders/OrdersContainer";
-import CoinsContainer from "js/containers/coins/CoinsContainer";
-import Login from "/containers/Login";
-import Register from "js/containers/Register";
-import License from "js/containers/License";
-import Support from "js/containers/Support";
-import Restore from "js/containers/Restore";
-import Profile from "js/containers/Profile";
+import NotFound from "js/components/errors/NotFound";
+import OrdersContainer from "js/components/containers/orders/OrdersContainer";
+import CoinsContainer from "js/components/containers/coins/CoinsContainer";
+import Login from "js/components/containers/auth/Login";
+import Register from "js/components/containers/auth/Register";
+import License from "js/components/containers/License";
+import Support from "js/components/containers/Support";
+import Restore from "js/components/containers/auth/Restore";
+import Profile from "js/components/containers/Profile";
 
 class Body extends Component {
 

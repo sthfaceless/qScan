@@ -1,9 +1,7 @@
-import {GET_ORDERS} from "js/store/actions/ordersActions";
-
-const ordersFunctions = {
+const supportFunctions = {
 };
 
-export const orders = (state = {}, action) =>
-    ordersFunctions[action.type] ?
-        ordersFunctions[action.type](state,  action.state)
+export const support = (state = {}, action) =>
+    supportFunctions[action.type] ?
+        supportFunctions[action.type](state,  action.state)
         : state;

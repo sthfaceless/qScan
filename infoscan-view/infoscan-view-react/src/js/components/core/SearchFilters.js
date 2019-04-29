@@ -1,17 +1,32 @@
 import React from 'react';
+import 'css/core/search-filters.css';
 
-class SearchFilter extends React.Component{
+class SearchFilters extends React.Component{
+    constructor(props) {
+        super(props);
+        this.state = {
+            dropdowns: {}
+        };
+        this.props.filters.map(filter => {
+            this.state.dropdowns[filter.name] = false;
+        });
+    }
+
     render() {
         return (
-            <div className="filter">
-                <span>{this.props.name}</span>
-                {this.state.filters.date.dropdown ? <div className="filter-drop grey-text">
-                    <div className="filter-drop-elem">Новые</div>
-                    <div className="filter-drop-elem">Старые</div>
-                </div> : ""}
+            <div className="filters grey-text">
+                {this.props.filters.map(filter => (
+                    <div className="filter" key={filter.name}>
+                        <span>{filter.name}</span>
+                        {this.state.dropdowns[filter.name] ? <div className="filter-drop grey-text">
+                            {filter.elements.map(element => (
+                                <div className="filter-drop-elem" key={element.name}>{element.name}</div>
+                            ))}
+                        </div> : ""}
+                    </div>))}
             </div>
         );
     }
 }
 
-export default SearchFilter;
+export default SearchFilters;

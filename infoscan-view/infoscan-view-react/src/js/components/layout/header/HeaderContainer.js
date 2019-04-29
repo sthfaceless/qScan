@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import AuthorizedHeader from "./AuthorizedHeader";
 import AnonymousHeader from "./AnonymousHeader";
 import {connect} from "react-redux";
-import 'css/header.css';
+import 'css/header/header.css';
 import {logout} from "js/store/actions/authActions";
 
 class HeaderContainer extends Component{

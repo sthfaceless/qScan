@@ -1,0 +1,30 @@
+.error-template{
+    padding: 50px 0;
+    background: #263238 !important;
+}
+.error-template .content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-flow: column;
+    min-height: 70vh;
+}
+.error-template .error-card{
+    display: flex;
+    align-items: center;
+    flex-flow: column;
+    padding: 40px;
+    border-radius: 10px;
+}
+.error-template .error-card .error-code{
+    font-size: 80px;
+    margin: 20px 0 0 0;
+}
+.error-template .error-card .describe{
+    margin: 10px 0 30px 0;
+}
+.error-template .error-card .back{
+    padding: 10px 30px;
+    border-radius: 5px;
+    box-shadow: lightgray 0 0 5px 1px;
+}

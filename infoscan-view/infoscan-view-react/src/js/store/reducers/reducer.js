@@ -1,6 +1,14 @@
 import {combineReducers} from 'redux';
 import {orders} from "./orders";
+import {auth} from "./auth";
+import {support} from "./support";
+import {profile} from "./profile";
+import {coins} from "./coins";
 
 export default combineReducers({
-    orders
+    orders,
+    auth,
+    support,
+    profile,
+    coins
 });

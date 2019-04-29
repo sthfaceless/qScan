@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/dropdown-profile.css';
+import 'css/header/dropdown-profile.css';
 import {Link} from "react-router-dom";
 
 class DropdownProfile extends Component{

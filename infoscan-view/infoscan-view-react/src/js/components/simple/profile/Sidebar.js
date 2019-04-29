@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import 'css/profile.sidebar.css';
+import 'css/profile/profile.sidebar.css';
 
 class Sidebar extends Component{
 

@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Link} from "react-router-dom";
-import Navbar from "js/header/Navbar";
+import Navbar from "js/components/simple/header/Navbar";
 import {Sidenav} from "materialize-css";
+import Sidebar from "js/components/simple/header/Sidebar";
 
 class AnonymousHeader extends Component {
 
@@ -17,19 +18,12 @@ class AnonymousHeader extends Component {
                     <li><Link className="login btn-small red accent-4" to="/login">Вход</Link></li>
                     <li><Link className="reg btn-small red accent-4" to="/reg">Регистрация</Link></li>
                 </Navbar>
-                <ul id="slide-out" className="sidenav grey darken-3 white-text">
-                    <li>
-                        <div className="user-view">
-                            <h4>InfoScan</h4>
-                        </div>
-                    </li>
+                <Sidebar>
                     <li><Link to='/login'>Вход</Link></li>
                     <li><Link to='/reg'>Регистрация</Link></li>
-                    <li>
-                        <div className="divider"></div>
-                    </li>
+                    <li><div className="divider"></div></li>
                     <li><Link to='/support'>Помощь</Link></li>
-                </ul>
+                </Sidebar>
             </>
         );
     }

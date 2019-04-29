@@ -1,0 +1,10 @@
+.create-order .right .gender{
+    padding: 5px 10px;
+    width: 100%;
+}
+.create-order .right .gender label{
+    margin: 0 10px;
+}
+.create-order .right .gender  .name{
+    font-size: 16px;
+}

@@ -1,0 +1,26 @@
+.orders .top-row{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.orders .header{
+    font-size: 30px;
+    text-align: center;
+}
+.orders .make-order{
+    margin: 10px 0;
+    padding: 5px 10px;
+    border-radius: 5px;
+    box-shadow: lightgray 0 0 5px 1px;
+}
+.orders .make-order:hover{
+    transform: translateY(-3px);
+}
+.orders .subheader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.orders .subheader .subheader-element{
+    margin: 0 10px;
+}

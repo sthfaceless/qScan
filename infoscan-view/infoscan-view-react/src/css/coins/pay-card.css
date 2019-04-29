@@ -1,0 +1,22 @@
+.pay-card{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+    padding: 30px;
+    border-radius: 5px;
+    box-shadow: lightgray 0 0 10px 1px;
+}
+.pay-card .amount{
+    font-size: 24px;
+}
+.pay-card .buy{
+    margin-top: 20px;
+    border-radius: 5px;
+    padding: 7px 30px;
+    cursor: pointer;
+    transition-duration: 0.1s;
+}
+.pay-card .buy:hover{
+    transform: translateY(-3px);
+}
